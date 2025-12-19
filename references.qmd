@@ -1,0 +1,12 @@
+---
+title: "References"
+---
+
+This page lists all bibliographic entries used across the website.
+
+[@*]
+
+# References
+
+::: {#refs}
+:::

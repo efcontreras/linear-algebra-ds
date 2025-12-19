@@ -29,6 +29,7 @@ website:
       - section: "Appendix"
         contents:
           - chapters/100A-appendix.qmd
+      - references.qmd
       - about.qmd
 
 format:
@@ -50,3 +51,5 @@ execute:
   message: false
   freeze: auto
 
+title: "Bibliography"
+bibliography: references.bib

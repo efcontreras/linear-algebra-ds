@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -291,6 +311,12 @@ window.Quarto = {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../about.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About</span></a>
   </div>
@@ -312,20 +338,20 @@ window.Quarto = {
   <li><a href="#rank-one-decomposition" id="toc-rank-one-decomposition" class="nav-link" data-scroll-target="#rank-one-decomposition"><span class="header-section-number">5</span> Rank-One Decomposition</a></li>
   <li><a href="#proof-sketch-of-existence" id="toc-proof-sketch-of-existence" class="nav-link" data-scroll-target="#proof-sketch-of-existence"><span class="header-section-number">6</span> Proof Sketch of Existence</a></li>
   <li><a href="#best-rank-k-approximation" id="toc-best-rank-k-approximation" class="nav-link" data-scroll-target="#best-rank-k-approximation"><span class="header-section-number">7</span> Best Rank-<span class="math inline">\(k\)</span> Approximation</a></li>
-  <li><a href="#computational-example-python" id="toc-computational-example-python" class="nav-link" data-scroll-target="#computational-example-python"><span class="header-section-number">8</span> Computational Example (Python)</a></li>
-  <li><a href="#low-rank-approximation-in-practice" id="toc-low-rank-approximation-in-practice" class="nav-link" data-scroll-target="#low-rank-approximation-in-practice"><span class="header-section-number">9</span> Low-Rank Approximation in Practice</a></li>
-  <li><a href="#connection-to-pca" id="toc-connection-to-pca" class="nav-link" data-scroll-target="#connection-to-pca"><span class="header-section-number">10</span> Connection to PCA</a></li>
-  <li><a href="#conditioning-and-stability" id="toc-conditioning-and-stability" class="nav-link" data-scroll-target="#conditioning-and-stability"><span class="header-section-number">11</span> Conditioning and Stability</a></li>
-  <li><a href="#data-science-applications" id="toc-data-science-applications" class="nav-link" data-scroll-target="#data-science-applications"><span class="header-section-number">12</span> Data Science Applications</a>
+  <li><a href="#computational-example-python" id="toc-computational-example-python" class="nav-link" data-scroll-target="#computational-example-python"><span class="header-section-number">12</span> Computational Example (Python)</a></li>
+  <li><a href="#low-rank-approximation-in-practice" id="toc-low-rank-approximation-in-practice" class="nav-link" data-scroll-target="#low-rank-approximation-in-practice"><span class="header-section-number">13</span> Low-Rank Approximation in Practice</a></li>
+  <li><a href="#connection-to-pca" id="toc-connection-to-pca" class="nav-link" data-scroll-target="#connection-to-pca"><span class="header-section-number">14</span> Connection to PCA</a></li>
+  <li><a href="#conditioning-and-stability" id="toc-conditioning-and-stability" class="nav-link" data-scroll-target="#conditioning-and-stability"><span class="header-section-number">15</span> Conditioning and Stability</a></li>
+  <li><a href="#data-science-applications" id="toc-data-science-applications" class="nav-link" data-scroll-target="#data-science-applications"><span class="header-section-number">16</span> Data Science Applications</a>
   <ul class="collapse">
-  <li><a href="#dimensionality-reduction" id="toc-dimensionality-reduction" class="nav-link" data-scroll-target="#dimensionality-reduction"><span class="header-section-number">12.1</span> Dimensionality Reduction</a></li>
-  <li><a href="#compression" id="toc-compression" class="nav-link" data-scroll-target="#compression"><span class="header-section-number">12.2</span> Compression</a></li>
-  <li><a href="#recommender-systems" id="toc-recommender-systems" class="nav-link" data-scroll-target="#recommender-systems"><span class="header-section-number">12.3</span> Recommender Systems</a></li>
-  <li><a href="#latent-semantic-analysis" id="toc-latent-semantic-analysis" class="nav-link" data-scroll-target="#latent-semantic-analysis"><span class="header-section-number">12.4</span> Latent Semantic Analysis</a></li>
+  <li><a href="#dimensionality-reduction" id="toc-dimensionality-reduction" class="nav-link" data-scroll-target="#dimensionality-reduction"><span class="header-section-number">16.1</span> Dimensionality Reduction</a></li>
+  <li><a href="#compression" id="toc-compression" class="nav-link" data-scroll-target="#compression"><span class="header-section-number">16.2</span> Compression</a></li>
+  <li><a href="#recommender-systems" id="toc-recommender-systems" class="nav-link" data-scroll-target="#recommender-systems"><span class="header-section-number">16.3</span> Recommender Systems</a></li>
+  <li><a href="#latent-semantic-analysis" id="toc-latent-semantic-analysis" class="nav-link" data-scroll-target="#latent-semantic-analysis"><span class="header-section-number">16.4</span> Latent Semantic Analysis</a></li>
   </ul></li>
-  <li><a href="#what-svd-does-not-assume" id="toc-what-svd-does-not-assume" class="nav-link" data-scroll-target="#what-svd-does-not-assume"><span class="header-section-number">13</span> What SVD Does <em>Not</em> Assume</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">14</span> Summary</a></li>
-  <li><a href="#preview-regularization-and-truncated-svd" id="toc-preview-regularization-and-truncated-svd" class="nav-link" data-scroll-target="#preview-regularization-and-truncated-svd"><span class="header-section-number">15</span> Preview: Regularization and Truncated SVD</a></li>
+  <li><a href="#what-svd-does-not-assume" id="toc-what-svd-does-not-assume" class="nav-link" data-scroll-target="#what-svd-does-not-assume"><span class="header-section-number">17</span> What SVD Does <em>Not</em> Assume</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">18</span> Summary</a></li>
+  <li><a href="#preview-regularization-and-truncated-svd" id="toc-preview-regularization-and-truncated-svd" class="nav-link" data-scroll-target="#preview-regularization-and-truncated-svd"><span class="header-section-number">19</span> Preview: Regularization and Truncated SVD</a></li>
   </ul>
 </nav>
     </div>
@@ -450,7 +476,7 @@ A v_i = \sigma_i u_i.
 </section>
 <section id="best-rank-k-approximation" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="best-rank-k-approximation"><span class="header-section-number">7</span> Best Rank-<span class="math inline">\(k\)</span> Approximation</h2>
-<p>One of the most important properties of SVD is optimal low-rank approximation.</p>
+<p>One of the most important properties of SVD is optimal low-rank approximation <span class="citation" data-cites="eckart1936approximation mirsky1960symmetric">(<a href="#ref-eckart1936approximation" role="doc-biblioref">Eckart and Young 1936</a>; <a href="#ref-mirsky1960symmetric" role="doc-biblioref">Mirsky 1960</a>)</span>.</p>
 <div class="mathbox theorem">
 <div class="mathbox-title">
 Theorem (Eckart–Young–Mirsky)
@@ -472,21 +498,154 @@ A_k := \sum_{i=1}^k \sigma_i u_i v_i^\top.
 <hr>
 <details class="proof-toggle">
 <summary>
-Why SVD gives the best approximation (idea)
+Proof of the Eckart–Young–Mirsky Theorem (rigorous, click to expand)
 </summary>
 <div class="mathbox proof">
 <p><span class="proof-title"><em>Proof</em>. </span></p>
 <div class="mathbox-title">
-Proof (idea)
+Proof (Eckart–Young–Mirsky)
 </div>
-<p>The singular values measure the amount of energy carried by each rank-one component. Any rank-<span class="math inline">\(k\)</span> matrix can capture at most the first <span class="math inline">\(k\)</span> singular directions.</p>
-<p>Discarding <span class="math inline">\(\sigma_{k+1}, \sigma_{k+2}, \dots\)</span> minimizes the residual norm. <span class="proof-end">□</span></p>
+<p>Let <span class="math inline">\(A\in\mathbb{R}^{m\times n}\)</span> have SVD <span class="math display">\[
+A=U\Sigma V^\top,
+\qquad
+\Sigma=\mathrm{diag}(\sigma_1,\dots,\sigma_r)\in\mathbb{R}^{m\times n},
+\qquad
+\sigma_1\ge \cdots \ge \sigma_r&gt;0,
+\]</span> where <span class="math inline">\(r=\mathrm{rank}(A)\)</span> and we set <span class="math inline">\(\sigma_i=0\)</span> for <span class="math inline">\(i&gt;r\)</span>.</p>
+<p>For <span class="math inline">\(k&lt;r\)</span>, define the truncated SVD <span class="math display">\[
+A_k := U\Sigma_k V^\top,
+\qquad
+\Sigma_k=\mathrm{diag}(\sigma_1,\dots,\sigma_k,0,\dots,0).
+\]</span></p>
+<p>We prove that for both the Frobenius norm <span class="math inline">\(\|\cdot\|_F\)</span> and the operator (spectral) norm <span class="math inline">\(\|\cdot\|_2\)</span>, <span class="math display">\[
+\|A-A_k\| = \min_{\mathrm{rank}(B)\le k}\|A-B\|.
+\]</span></p>
+<hr>
+<section id="step-1-reduce-to-the-diagonal-case" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="step-1-reduce-to-the-diagonal-case"><span class="header-section-number">8</span> Step 1: Reduce to the diagonal case</h2>
+<p>Both <span class="math inline">\(\|\cdot\|_F\)</span> and <span class="math inline">\(\|\cdot\|_2\)</span> are <strong>orthogonally invariant</strong>: for orthogonal <span class="math inline">\(Q_1,Q_2\)</span>, <span class="math display">\[
+\|Q_1MQ_2\|_F=\|M\|_F,
+\qquad
+\|Q_1MQ_2\|_2=\|M\|_2.
+\]</span></p>
+<p>Fix any matrix <span class="math inline">\(B\)</span> with <span class="math inline">\(\mathrm{rank}(B)\le k\)</span> and set <span class="math display">\[
+C := U^\top B V.
+\]</span> Then <span class="math inline">\(\mathrm{rank}(C)=\mathrm{rank}(B)\le k\)</span> and <span class="math display">\[
+\|A-B\|
+=\|U\Sigma V^\top - B\|
+=\|\Sigma - U^\top B V\|
+=\|\Sigma - C\|.
+\]</span> Therefore, <span class="math display">\[
+\min_{\mathrm{rank}(B)\le k}\|A-B\|
+=
+\min_{\mathrm{rank}(C)\le k}\|\Sigma-C\|.
+\]</span></p>
+<p>So it suffices to prove the theorem for <span class="math inline">\(\Sigma\)</span> and its truncation <span class="math inline">\(\Sigma_k\)</span>.</p>
+<hr>
+</section>
+<section id="part-a-frobenius-norm-optimality" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="part-a-frobenius-norm-optimality"><span class="header-section-number">9</span> Part A: Frobenius norm optimality</h2>
+<p>Let <span class="math inline">\(C\)</span> be any matrix with <span class="math inline">\(\mathrm{rank}(C)\le k\)</span> and denote its singular values by <span class="math display">\[
+\tau_1\ge \tau_2\ge \cdots \ge \tau_k\ge 0,
+\qquad
+\tau_i=0 \text{ for } i&gt;k.
+\]</span></p>
+<p>We use the identity <span class="math display">\[
+\|\Sigma-C\|_F^2
+= \|\Sigma\|_F^2 + \|C\|_F^2 - 2\,\mathrm{tr}(\Sigma^\top C).
+\]</span></p>
+<section id="key-inequality-von-neumann-trace-inequality" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="key-inequality-von-neumann-trace-inequality"><span class="header-section-number">9.1</span> Key inequality (von Neumann trace inequality)</h3>
+<p>For any matrices <span class="math inline">\(X,Y\)</span> of the same size, the trace satisfies <span class="math display">\[
+\mathrm{tr}(X^\top Y)\le \sum_{i\ge 1} s_i(X)\,s_i(Y),
+\]</span> where <span class="math inline">\(s_i(\cdot)\)</span> denotes singular values in nonincreasing order. Applying this to <span class="math inline">\(X=\Sigma\)</span> and <span class="math inline">\(Y=C\)</span> gives <span class="math display">\[
+\mathrm{tr}(\Sigma^\top C)
+\le
+\sum_{i\ge 1} \sigma_i\,\tau_i
+=
+\sum_{i=1}^k \sigma_i\,\tau_i,
+\]</span> since <span class="math inline">\(\tau_i=0\)</span> for <span class="math inline">\(i&gt;k\)</span>.</p>
+<p>Hence, <span class="math display">\[\begin{align*}
+\|\Sigma-C\|_F^2
+&amp;\ge
+\sum_{i\ge 1}\sigma_i^2
++
+\sum_{i=1}^k \tau_i^2
+-
+2\sum_{i=1}^k \sigma_i\tau_i \\
+&amp;=
+\sum_{i=1}^k(\sigma_i-\tau_i)^2
++
+\sum_{i&gt;k}\sigma_i^2 \\
+&amp;\ge
+\sum_{i&gt;k}\sigma_i^2.
+\end{align*}\]</span></p>
+<p>Therefore, <span class="math display">\[
+\|\Sigma-C\|_F \;\ge\; \left(\sum_{i&gt;k}\sigma_i^2\right)^{1/2}.
+\]</span></p>
+</section>
+<section id="achievability" class="level3" data-number="9.2">
+<h3 data-number="9.2" class="anchored" data-anchor-id="achievability"><span class="header-section-number">9.2</span> Achievability</h3>
+<p>Choose <span class="math inline">\(C=\Sigma_k\)</span>. Then <span class="math display">\[
+\|\Sigma-\Sigma_k\|_F^2 = \sum_{i&gt;k}\sigma_i^2,
+\]</span> so equality is achieved and <span class="math inline">\(\Sigma_k\)</span> is a best rank-<span class="math inline">\(k\)</span> approximation in Frobenius norm.<br>
+Returning to <span class="math inline">\(A=U\Sigma V^\top\)</span>, we obtain that <span class="math inline">\(A_k=U\Sigma_kV^\top\)</span> is optimal and <span class="math display">\[
+\min_{\mathrm{rank}(B)\le k}\|A-B\|_F = \|A-A_k\|_F = \left(\sum_{i&gt;k}\sigma_i^2\right)^{1/2}.
+\]</span></p>
+<hr>
+</section>
+</section>
+<section id="part-b-spectral-norm-optimality" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="part-b-spectral-norm-optimality"><span class="header-section-number">10</span> Part B: Spectral norm optimality</h2>
+<p>We now prove <span class="math display">\[
+\min_{\mathrm{rank}(C)\le k}\|\Sigma-C\|_2 = \sigma_{k+1},
+\]</span> (where <span class="math inline">\(\sigma_{k+1}&gt;0\)</span> since <span class="math inline">\(k&lt;r\)</span>).</p>
+<p>Let <span class="math inline">\(C\)</span> have rank <span class="math inline">\(\le k\)</span>. Then its <span class="math inline">\((k+1)\)</span>-th singular value is zero: <span class="math display">\[
+\tau_{k+1}(C)=0.
+\]</span></p>
+<section id="key-inequality-weyl-type-singular-value-inequality" class="level3" data-number="10.1">
+<h3 data-number="10.1" class="anchored" data-anchor-id="key-inequality-weyl-type-singular-value-inequality"><span class="header-section-number">10.1</span> Key inequality (Weyl-type singular value inequality)</h3>
+<p>For any matrices <span class="math inline">\(X,Y\)</span> of the same size and any indices <span class="math inline">\(i,j\)</span> with <span class="math inline">\(i+j-1\)</span> valid, <span class="math display">\[
+s_{i+j-1}(X+Y)\le s_i(X)+s_j(Y).
+\]</span></p>
+<p>Apply this with <span class="math inline">\(X=\Sigma-C\)</span> and <span class="math inline">\(Y=C\)</span>, so that <span class="math inline">\(X+Y=\Sigma\)</span>. Choose <span class="math inline">\(i=1\)</span> and <span class="math inline">\(j=k+1\)</span>. Then <span class="math display">\[
+s_{k+1}(\Sigma)
+\le
+s_1(\Sigma-C)+s_{k+1}(C)
+=
+\|\Sigma-C\|_2 + 0.
+\]</span> Hence, <span class="math display">\[
+\|\Sigma-C\|_2 \ge s_{k+1}(\Sigma)=\sigma_{k+1}.
+\]</span></p>
+</section>
+<section id="achievability-1" class="level3" data-number="10.2">
+<h3 data-number="10.2" class="anchored" data-anchor-id="achievability-1"><span class="header-section-number">10.2</span> Achievability</h3>
+<p>Take <span class="math inline">\(C=\Sigma_k\)</span>. Then <span class="math inline">\(\Sigma-\Sigma_k\)</span> is diagonal with largest diagonal entry <span class="math inline">\(\sigma_{k+1}\)</span>, so <span class="math display">\[
+\|\Sigma-\Sigma_k\|_2 = \sigma_{k+1}.
+\]</span></p>
+<p>Therefore <span class="math inline">\(\Sigma_k\)</span> is a best rank-<span class="math inline">\(k\)</span> approximation in spectral norm, and transferring back to <span class="math inline">\(A\)</span> gives <span class="math display">\[
+\min_{\mathrm{rank}(B)\le k}\|A-B\|_2 = \|A-A_k\|_2 = \sigma_{k+1}.
+\]</span></p>
+<hr>
+</section>
+</section>
+<section id="conclusion" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">11</span> Conclusion</h2>
+<p>For both norms, <span class="math display">\[
+A_k = U\Sigma_kV^\top \in \arg\min_{\mathrm{rank}(B)\le k}\|A-B\|.
+\]</span> Moreover, <span class="math display">\[
+\|A-A_k\|_F = \left(\sum_{i&gt;k}\sigma_i^2\right)^{1/2},
+\qquad
+\|A-A_k\|_2 = \sigma_{k+1}.
+\]</span></p>
+<p><span class="proof-end">□</span></p>
+</section>
 </div>
 </details>
 <hr>
 </section>
-<section id="computational-example-python" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="computational-example-python"><span class="header-section-number">8</span> Computational Example (Python)</h2>
+<section id="computational-example-python" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="computational-example-python"><span class="header-section-number">12</span> Computational Example (Python)</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
@@ -500,15 +659,15 @@ Proof (idea)
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>np.allclose(A, A_reconstructed)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <hr>
 </section>
-<section id="low-rank-approximation-in-practice" class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="low-rank-approximation-in-practice"><span class="header-section-number">9</span> Low-Rank Approximation in Practice</h2>
+<section id="low-rank-approximation-in-practice" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="low-rank-approximation-in-practice"><span class="header-section-number">13</span> Low-Rank Approximation in Practice</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>A_k <span class="op">=</span> U[:, :k] <span class="op">@</span> np.diag(s[:k]) <span class="op">@</span> Vt[:k, :]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(A <span class="op">-</span> A_k, <span class="bu">ord</span><span class="op">=</span><span class="st">"fro"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="connection-to-pca" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="connection-to-pca"><span class="header-section-number">10</span> Connection to PCA</h2>
+<section id="connection-to-pca" class="level2" data-number="14">
+<h2 data-number="14" class="anchored" data-anchor-id="connection-to-pca"><span class="header-section-number">14</span> Connection to PCA</h2>
 <p>Given a centered data matrix <span class="math inline">\(X \in \mathbb{R}^{m \times n}\)</span>:</p>
 <ul>
 <li>SVD: <span class="math inline">\(X = U \Sigma V^\top\)</span></li>
@@ -518,8 +677,8 @@ Proof (idea)
 <p>PCA can be computed <strong>directly via SVD</strong>, without forming the covariance matrix.</p>
 <hr>
 </section>
-<section id="conditioning-and-stability" class="level2" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="conditioning-and-stability"><span class="header-section-number">11</span> Conditioning and Stability</h2>
+<section id="conditioning-and-stability" class="level2" data-number="15">
+<h2 data-number="15" class="anchored" data-anchor-id="conditioning-and-stability"><span class="header-section-number">15</span> Conditioning and Stability</h2>
 <p>The <strong>condition number</strong> of <span class="math inline">\(A\)</span> is:</p>
 <p><span class="math display">\[
 \kappa(A) = \frac{\sigma_{\max}}{\sigma_{\min}}.
@@ -531,28 +690,28 @@ Proof (idea)
 <p>This explains why SVD is crucial for: - diagnosing instability, - regularization (e.g.&nbsp;truncated SVD).</p>
 <hr>
 </section>
-<section id="data-science-applications" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="data-science-applications"><span class="header-section-number">12</span> Data Science Applications</h2>
-<section id="dimensionality-reduction" class="level3" data-number="12.1">
-<h3 data-number="12.1" class="anchored" data-anchor-id="dimensionality-reduction"><span class="header-section-number">12.1</span> Dimensionality Reduction</h3>
+<section id="data-science-applications" class="level2" data-number="16">
+<h2 data-number="16" class="anchored" data-anchor-id="data-science-applications"><span class="header-section-number">16</span> Data Science Applications</h2>
+<section id="dimensionality-reduction" class="level3" data-number="16.1">
+<h3 data-number="16.1" class="anchored" data-anchor-id="dimensionality-reduction"><span class="header-section-number">16.1</span> Dimensionality Reduction</h3>
 <p>Keep only the first <span class="math inline">\(k\)</span> singular values and vectors to obtain a low-dimensional representation.</p>
 </section>
-<section id="compression" class="level3" data-number="12.2">
-<h3 data-number="12.2" class="anchored" data-anchor-id="compression"><span class="header-section-number">12.2</span> Compression</h3>
+<section id="compression" class="level3" data-number="16.2">
+<h3 data-number="16.2" class="anchored" data-anchor-id="compression"><span class="header-section-number">16.2</span> Compression</h3>
 <p>Store <span class="math inline">\(U_k\)</span>, <span class="math inline">\(\Sigma_k\)</span>, and <span class="math inline">\(V_k\)</span> instead of the full matrix <span class="math inline">\(A\)</span>.</p>
 </section>
-<section id="recommender-systems" class="level3" data-number="12.3">
-<h3 data-number="12.3" class="anchored" data-anchor-id="recommender-systems"><span class="header-section-number">12.3</span> Recommender Systems</h3>
+<section id="recommender-systems" class="level3" data-number="16.3">
+<h3 data-number="16.3" class="anchored" data-anchor-id="recommender-systems"><span class="header-section-number">16.3</span> Recommender Systems</h3>
 <p>User–item interaction matrices are approximated by low-rank SVD to uncover latent factors.</p>
 </section>
-<section id="latent-semantic-analysis" class="level3" data-number="12.4">
-<h3 data-number="12.4" class="anchored" data-anchor-id="latent-semantic-analysis"><span class="header-section-number">12.4</span> Latent Semantic Analysis</h3>
+<section id="latent-semantic-analysis" class="level3" data-number="16.4">
+<h3 data-number="16.4" class="anchored" data-anchor-id="latent-semantic-analysis"><span class="header-section-number">16.4</span> Latent Semantic Analysis</h3>
 <p>Text–term matrices are decomposed to identify latent semantic structure in documents.</p>
 <hr>
 </section>
 </section>
-<section id="what-svd-does-not-assume" class="level2" data-number="13">
-<h2 data-number="13" class="anchored" data-anchor-id="what-svd-does-not-assume"><span class="header-section-number">13</span> What SVD Does <em>Not</em> Assume</h2>
+<section id="what-svd-does-not-assume" class="level2" data-number="17">
+<h2 data-number="17" class="anchored" data-anchor-id="what-svd-does-not-assume"><span class="header-section-number">17</span> What SVD Does <em>Not</em> Assume</h2>
 <ul>
 <li>no symmetry,</li>
 <li>no invertibility,</li>
@@ -561,8 +720,8 @@ Proof (idea)
 <p>This universality makes SVD the <strong>central tool</strong> of applied linear algebra.</p>
 <hr>
 </section>
-<section id="summary" class="level2" data-number="14">
-<h2 data-number="14" class="anchored" data-anchor-id="summary"><span class="header-section-number">14</span> Summary</h2>
+<section id="summary" class="level2" data-number="18">
+<h2 data-number="18" class="anchored" data-anchor-id="summary"><span class="header-section-number">18</span> Summary</h2>
 <ul>
 <li>SVD generalizes the Spectral Theorem.</li>
 <li>Any matrix admits an orthogonal decomposition.</li>
@@ -572,8 +731,8 @@ Proof (idea)
 </ul>
 <hr>
 </section>
-<section id="preview-regularization-and-truncated-svd" class="level2" data-number="15">
-<h2 data-number="15" class="anchored" data-anchor-id="preview-regularization-and-truncated-svd"><span class="header-section-number">15</span> Preview: Regularization and Truncated SVD</h2>
+<section id="preview-regularization-and-truncated-svd" class="level2" data-number="19">
+<h2 data-number="19" class="anchored" data-anchor-id="preview-regularization-and-truncated-svd"><span class="header-section-number">19</span> Preview: Regularization and Truncated SVD</h2>
 <p>Small singular values cause instability. In the next chapter, we study:</p>
 <ul>
 <li>truncated SVD,</li>
@@ -584,9 +743,17 @@ Proof (idea)
 
 <!-- -->
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-eckart1936approximation" class="csl-entry" role="listitem">
+Eckart, Carl, and Gale Young. 1936. <span>“The Approximation of One Matrix by Another of Lower Rank.”</span> <em>Psychometrika</em> 1 (3): 211–18.
+</div>
+<div id="ref-mirsky1960symmetric" class="csl-entry" role="listitem">
+Mirsky, Leon. 1960. <span>“Symmetric Gauge Functions and Unitarily Invariant Norms.”</span> <em>Quarterly Journal of Mathematics</em> 11 (1): 50–59.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -1180,7 +1347,7 @@ Proof (idea)
 <span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a><span class="fu">## Best Rank-$k$ Approximation</span></span>
 <span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>One of the most important properties of SVD is optimal low-rank approximation.</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>One of the most important properties of SVD is optimal low-rank approximation <span class="co">[</span><span class="ot">@eckart1936approximation; @mirsky1960symmetric</span><span class="co">]</span>.</span>
 <span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>::: {.mathbox .theorem}</span>
 <span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"mathbox-title"</span><span class="dt">&gt;</span>Theorem (Eckart–Young–Mirsky)<span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
@@ -1207,128 +1374,305 @@ Proof (idea)
 <span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">details</span><span class="ot"> class</span><span class="op">=</span><span class="st">"proof-toggle"</span><span class="dt">&gt;</span></span>
-<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Why SVD gives the best approximation (idea)<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">summary</span><span class="dt">&gt;</span>Proof of the Eckart–Young–Mirsky Theorem (rigorous, click to expand)<span class="dt">&lt;/</span><span class="kw">summary</span><span class="dt">&gt;</span></span>
 <span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>::: {.mathbox .proof}</span>
-<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"mathbox-title"</span><span class="dt">&gt;</span>Proof (idea)<span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"mathbox-title"</span><span class="dt">&gt;</span>Proof (Eckart–Young–Mirsky)<span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
 <span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>The singular values measure the amount of energy carried by each rank-one component.</span>
-<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>Any rank-$k$ matrix can capture at most the first $k$ singular directions.</span>
-<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>Discarding $\sigma_{k+1}, \sigma_{k+2}, \dots$ minimizes the residual norm.</span>
-<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"proof-end"</span><span class="dt">&gt;</span>□<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
-<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
-<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a><span class="fu">## Computational Example (Python)</span></span>
-<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
-<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> rng.normal(size<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
-<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>U, s, Vt <span class="op">=</span> np.linalg.svd(A, full_matrices<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>U.shape, s, Vt.shape</span>
-<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>Let $A\in\mathbb{R}^{m\times n}$ have SVD</span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>A=U\Sigma V^\top,</span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>\Sigma=\mathrm{diag}(\sigma_1,\dots,\sigma_r)\in\mathbb{R}^{m\times n},</span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>\sigma_1\ge \cdots \ge \sigma_r&gt;0,</span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>where $r=\mathrm{rank}(A)$ and we set $\sigma_i=0$ for $i&gt;r$.</span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a>For $k&lt;r$, define the truncated SVD</span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a>A_k := U\Sigma_k V^\top,</span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a>\Sigma_k=\mathrm{diag}(\sigma_1,\dots,\sigma_k,0,\dots,0).</span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>We prove that for both the Frobenius norm $<span class="sc">\|</span>\cdot<span class="sc">\|</span>_F$ and the operator (spectral) norm $<span class="sc">\|</span>\cdot<span class="sc">\|</span>_2$,</span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>A-A_k<span class="sc">\|</span> = \min_{\mathrm{rank}(B)\le k}<span class="sc">\|</span>A-B<span class="sc">\|</span>.</span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>Reconstruction:</span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a><span class="fu">## Step 1: Reduce to the diagonal case</span></span>
 <span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>A_reconstructed <span class="op">=</span> U <span class="op">@</span> np.diag(s) <span class="op">@</span> Vt</span>
-<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>np.allclose(A, A_reconstructed)</span>
-<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a><span class="fu">## Low-Rank Approximation in Practice</span></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>Both $<span class="sc">\|</span>\cdot<span class="sc">\|</span>_F$ and $<span class="sc">\|</span>\cdot<span class="sc">\|</span>_2$ are **orthogonally invariant**:</span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>for orthogonal $Q_1,Q_2$,</span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>Q_1MQ_2<span class="sc">\|</span>_F=<span class="sc">\|</span>M<span class="sc">\|</span>_F,</span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>Q_1MQ_2<span class="sc">\|</span>_2=<span class="sc">\|</span>M<span class="sc">\|</span>_2.</span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>A_k <span class="op">=</span> U[:, :k] <span class="op">@</span> np.diag(s[:k]) <span class="op">@</span> Vt[:k, :]</span>
-<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(A <span class="op">-</span> A_k, <span class="bu">ord</span><span class="op">=</span><span class="st">"fro"</span>)</span>
-<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a><span class="fu">## Connection to PCA</span></span>
-<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a>Given a centered data matrix $X \in \mathbb{R}^{m \times n}$:</span>
-<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SVD: $X = U \Sigma V^\top$</span>
-<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Covariance: $X^\top X = V \Sigma^2 V^\top$</span>
-<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a>Thus:</span>
-<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>right singular vectors = principal directions,</span>
-<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>squared singular values = explained variance (up to normalization).</span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>Fix any matrix $B$ with $\mathrm{rank}(B)\le k$ and set</span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>C := U^\top B V.</span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a>Then $\mathrm{rank}(C)=\mathrm{rank}(B)\le k$ and</span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>A-B<span class="sc">\|</span></span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a>=<span class="sc">\|</span>U\Sigma V^\top - B<span class="sc">\|</span></span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a>=<span class="sc">\|</span>\Sigma - U^\top B V<span class="sc">\|</span></span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a>=<span class="sc">\|</span>\Sigma - C<span class="sc">\|</span>.</span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a>Therefore,</span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a>\min_{\mathrm{rank}(B)\le k}<span class="sc">\|</span>A-B<span class="sc">\|</span></span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a>\min_{\mathrm{rank}(C)\le k}<span class="sc">\|</span>\Sigma-C<span class="sc">\|</span>.</span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a>PCA can be computed **directly via SVD**, without forming the covariance matrix.</span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a>So it suffices to prove the theorem for $\Sigma$ and its truncation $\Sigma_k$.</span>
 <span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conditioning and Stability</span></span>
+<span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a><span class="fu">## Part A: Frobenius norm optimality</span></span>
 <span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a>The **condition number** of $A$ is:</span>
-<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a>\kappa(A) = \frac{\sigma_{\max}}{\sigma_{\min}}.</span>
-<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Large $\kappa(A)$ implies ill-conditioned problems.</span>
-<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Small singular values amplify noise and numerical errors.</span>
-<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a>This explains why SVD is crucial for:</span>
-<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>diagnosing instability,</span>
-<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>regularization (e.g. truncated SVD).</span>
+<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a>Let $C$ be any matrix with $\mathrm{rank}(C)\le k$ and denote its singular values by</span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a>\tau_1\ge \tau_2\ge \cdots \ge \tau_k\ge 0,</span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a>\tau_i=0 \text{ for } i&gt;k.</span>
+<span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a>We use the identity</span>
+<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\Sigma-C<span class="sc">\|</span>_F^2</span>
+<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a>= <span class="sc">\|</span>\Sigma<span class="sc">\|</span>_F^2 + <span class="sc">\|</span>C<span class="sc">\|</span>_F^2 - 2\,\mathrm{tr}(\Sigma^\top C).</span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb4-233"><a href="#cb4-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Science Applications</span></span>
-<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a><span class="fu">### Dimensionality Reduction</span></span>
-<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a>Keep only the first $k$ singular values and vectors to obtain a low-dimensional representation.</span>
-<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a><span class="fu">### Compression</span></span>
-<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a>Store $U_k$, $\Sigma_k$, and $V_k$ instead of the full matrix $A$.</span>
-<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a><span class="fu">### Recommender Systems</span></span>
-<span id="cb4-245"><a href="#cb4-245" aria-hidden="true" tabindex="-1"></a>User–item interaction matrices are approximated by low-rank SVD to uncover latent factors.</span>
-<span id="cb4-246"><a href="#cb4-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-247"><a href="#cb4-247" aria-hidden="true" tabindex="-1"></a><span class="fu">### Latent Semantic Analysis</span></span>
-<span id="cb4-248"><a href="#cb4-248" aria-hidden="true" tabindex="-1"></a>Text–term matrices are decomposed to identify latent semantic structure in documents.</span>
+<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key inequality (von Neumann trace inequality)</span></span>
+<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a>For any matrices $X,Y$ of the same size, the trace satisfies</span>
+<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a>\mathrm{tr}(X^\top Y)\le \sum_{i\ge 1} s_i(X)\,s_i(Y),</span>
+<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a>where $s_i(\cdot)$ denotes singular values in nonincreasing order.</span>
+<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a>Applying this to $X=\Sigma$ and $Y=C$ gives</span>
+<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a>\mathrm{tr}(\Sigma^\top C)</span>
+<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a>\le</span>
+<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a>\sum_{i\ge 1} \sigma_i\,\tau_i</span>
+<span id="cb4-245"><a href="#cb4-245" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb4-246"><a href="#cb4-246" aria-hidden="true" tabindex="-1"></a>\sum_{i=1}^k \sigma_i\,\tau_i,</span>
+<span id="cb4-247"><a href="#cb4-247" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-248"><a href="#cb4-248" aria-hidden="true" tabindex="-1"></a>since $\tau_i=0$ for $i&gt;k$.</span>
 <span id="cb4-249"><a href="#cb4-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-250"><a href="#cb4-250" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb4-251"><a href="#cb4-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-252"><a href="#cb4-252" aria-hidden="true" tabindex="-1"></a><span class="fu">## What SVD Does *Not* Assume</span></span>
-<span id="cb4-253"><a href="#cb4-253" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-254"><a href="#cb4-254" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>no symmetry,</span>
-<span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>no invertibility,</span>
-<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>no square shape.</span>
-<span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a>This universality makes SVD the **central tool** of applied linear algebra.</span>
-<span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-262"><a href="#cb4-262" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
-<span id="cb4-263"><a href="#cb4-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-264"><a href="#cb4-264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SVD generalizes the Spectral Theorem.</span>
-<span id="cb4-265"><a href="#cb4-265" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Any matrix admits an orthogonal decomposition.</span>
-<span id="cb4-266"><a href="#cb4-266" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Singular values quantify intrinsic dimensionality.</span>
-<span id="cb4-267"><a href="#cb4-267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Truncated SVD yields optimal low-rank approximations.</span>
-<span id="cb4-268"><a href="#cb4-268" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>PCA and many Data Science methods are special cases of SVD.</span>
-<span id="cb4-269"><a href="#cb4-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-270"><a href="#cb4-270" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-250"><a href="#cb4-250" aria-hidden="true" tabindex="-1"></a>Hence,</span>
+<span id="cb4-251"><a href="#cb4-251" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
+<span id="cb4-252"><a href="#cb4-252" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\Sigma-C<span class="sc">\|</span>_F^2</span>
+<span id="cb4-253"><a href="#cb4-253" aria-hidden="true" tabindex="-1"></a>&amp;\ge</span>
+<span id="cb4-254"><a href="#cb4-254" aria-hidden="true" tabindex="-1"></a>\sum_{i\ge 1}\sigma_i^2</span>
+<span id="cb4-255"><a href="#cb4-255" aria-hidden="true" tabindex="-1"></a>+</span>
+<span id="cb4-256"><a href="#cb4-256" aria-hidden="true" tabindex="-1"></a>\sum_{i=1}^k \tau_i^2</span>
+<span id="cb4-257"><a href="#cb4-257" aria-hidden="true" tabindex="-1"></a>-</span>
+<span id="cb4-258"><a href="#cb4-258" aria-hidden="true" tabindex="-1"></a>2\sum_{i=1}^k \sigma_i\tau_i <span class="sc">\\</span></span>
+<span id="cb4-259"><a href="#cb4-259" aria-hidden="true" tabindex="-1"></a>&amp;=</span>
+<span id="cb4-260"><a href="#cb4-260" aria-hidden="true" tabindex="-1"></a>\sum_{i=1}^k(\sigma_i-\tau_i)^2</span>
+<span id="cb4-261"><a href="#cb4-261" aria-hidden="true" tabindex="-1"></a>+</span>
+<span id="cb4-262"><a href="#cb4-262" aria-hidden="true" tabindex="-1"></a>\sum_{i&gt;k}\sigma_i^2 <span class="sc">\\</span></span>
+<span id="cb4-263"><a href="#cb4-263" aria-hidden="true" tabindex="-1"></a>&amp;\ge</span>
+<span id="cb4-264"><a href="#cb4-264" aria-hidden="true" tabindex="-1"></a>\sum_{i&gt;k}\sigma_i^2.</span>
+<span id="cb4-265"><a href="#cb4-265" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
+<span id="cb4-266"><a href="#cb4-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-267"><a href="#cb4-267" aria-hidden="true" tabindex="-1"></a>Therefore,</span>
+<span id="cb4-268"><a href="#cb4-268" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-269"><a href="#cb4-269" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\Sigma-C<span class="sc">\|</span>_F \;\ge\; \left(\sum_{i&gt;k}\sigma_i^2\right)^{1/2}.</span>
+<span id="cb4-270"><a href="#cb4-270" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb4-271"><a href="#cb4-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-272"><a href="#cb4-272" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preview: Regularization and Truncated SVD</span></span>
-<span id="cb4-273"><a href="#cb4-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-274"><a href="#cb4-274" aria-hidden="true" tabindex="-1"></a>Small singular values cause instability.</span>
-<span id="cb4-275"><a href="#cb4-275" aria-hidden="true" tabindex="-1"></a>In the next chapter, we study:</span>
-<span id="cb4-276"><a href="#cb4-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-277"><a href="#cb4-277" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>truncated SVD,</span>
-<span id="cb4-278"><a href="#cb4-278" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tikhonov (ridge) regularization,</span>
-<span id="cb4-279"><a href="#cb4-279" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>bias–variance trade-offs.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb4-272"><a href="#cb4-272" aria-hidden="true" tabindex="-1"></a><span class="fu">### Achievability</span></span>
+<span id="cb4-273"><a href="#cb4-273" aria-hidden="true" tabindex="-1"></a>Choose $C=\Sigma_k$. Then</span>
+<span id="cb4-274"><a href="#cb4-274" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-275"><a href="#cb4-275" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\Sigma-\Sigma_k<span class="sc">\|</span>_F^2 = \sum_{i&gt;k}\sigma_i^2,</span>
+<span id="cb4-276"><a href="#cb4-276" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-277"><a href="#cb4-277" aria-hidden="true" tabindex="-1"></a>so equality is achieved and $\Sigma_k$ is a best rank-$k$ approximation in Frobenius norm.  </span>
+<span id="cb4-278"><a href="#cb4-278" aria-hidden="true" tabindex="-1"></a>Returning to $A=U\Sigma V^\top$, we obtain that $A_k=U\Sigma_kV^\top$ is optimal and</span>
+<span id="cb4-279"><a href="#cb4-279" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-280"><a href="#cb4-280" aria-hidden="true" tabindex="-1"></a>\min_{\mathrm{rank}(B)\le k}<span class="sc">\|</span>A-B<span class="sc">\|</span>_F = \|A-A_k\|_F = \left(\sum_{i&gt;k}\sigma_i^2\right)^{1/2}.</span>
+<span id="cb4-281"><a href="#cb4-281" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-282"><a href="#cb4-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-283"><a href="#cb4-283" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-284"><a href="#cb4-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-285"><a href="#cb4-285" aria-hidden="true" tabindex="-1"></a><span class="fu">## Part B: Spectral norm optimality</span></span>
+<span id="cb4-286"><a href="#cb4-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-287"><a href="#cb4-287" aria-hidden="true" tabindex="-1"></a>We now prove</span>
+<span id="cb4-288"><a href="#cb4-288" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-289"><a href="#cb4-289" aria-hidden="true" tabindex="-1"></a>\min_{\mathrm{rank}(C)\le k}<span class="sc">\|</span>\Sigma-C<span class="sc">\|</span>_2 = \sigma_{k+1},</span>
+<span id="cb4-290"><a href="#cb4-290" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-291"><a href="#cb4-291" aria-hidden="true" tabindex="-1"></a>(where $\sigma_{k+1}&gt;0$ since $k&lt;r$).</span>
+<span id="cb4-292"><a href="#cb4-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-293"><a href="#cb4-293" aria-hidden="true" tabindex="-1"></a>Let $C$ have rank $\le k$. Then its $(k+1)$-th singular value is zero:</span>
+<span id="cb4-294"><a href="#cb4-294" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-295"><a href="#cb4-295" aria-hidden="true" tabindex="-1"></a>\tau_{k+1}(C)=0.</span>
+<span id="cb4-296"><a href="#cb4-296" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-297"><a href="#cb4-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-298"><a href="#cb4-298" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key inequality (Weyl-type singular value inequality)</span></span>
+<span id="cb4-299"><a href="#cb4-299" aria-hidden="true" tabindex="-1"></a>For any matrices $X,Y$ of the same size and any indices $i,j$ with $i+j-1$ valid,</span>
+<span id="cb4-300"><a href="#cb4-300" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-301"><a href="#cb4-301" aria-hidden="true" tabindex="-1"></a>s_{i+j-1}(X+Y)\le s_i(X)+s_j(Y).</span>
+<span id="cb4-302"><a href="#cb4-302" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-303"><a href="#cb4-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-304"><a href="#cb4-304" aria-hidden="true" tabindex="-1"></a>Apply this with $X=\Sigma-C$ and $Y=C$, so that $X+Y=\Sigma$.</span>
+<span id="cb4-305"><a href="#cb4-305" aria-hidden="true" tabindex="-1"></a>Choose $i=1$ and $j=k+1$. Then</span>
+<span id="cb4-306"><a href="#cb4-306" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-307"><a href="#cb4-307" aria-hidden="true" tabindex="-1"></a>s_{k+1}(\Sigma)</span>
+<span id="cb4-308"><a href="#cb4-308" aria-hidden="true" tabindex="-1"></a>\le</span>
+<span id="cb4-309"><a href="#cb4-309" aria-hidden="true" tabindex="-1"></a>s_1(\Sigma-C)+s_{k+1}(C)</span>
+<span id="cb4-310"><a href="#cb4-310" aria-hidden="true" tabindex="-1"></a>=</span>
+<span id="cb4-311"><a href="#cb4-311" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\Sigma-C<span class="sc">\|</span>_2 + 0.</span>
+<span id="cb4-312"><a href="#cb4-312" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-313"><a href="#cb4-313" aria-hidden="true" tabindex="-1"></a>Hence,</span>
+<span id="cb4-314"><a href="#cb4-314" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-315"><a href="#cb4-315" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\Sigma-C<span class="sc">\|</span>_2 \ge s_{k+1}(\Sigma)=\sigma_{k+1}.</span>
+<span id="cb4-316"><a href="#cb4-316" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-317"><a href="#cb4-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-318"><a href="#cb4-318" aria-hidden="true" tabindex="-1"></a><span class="fu">### Achievability</span></span>
+<span id="cb4-319"><a href="#cb4-319" aria-hidden="true" tabindex="-1"></a>Take $C=\Sigma_k$. Then $\Sigma-\Sigma_k$ is diagonal with largest diagonal entry $\sigma_{k+1}$, so</span>
+<span id="cb4-320"><a href="#cb4-320" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-321"><a href="#cb4-321" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\Sigma-\Sigma_k<span class="sc">\|</span>_2 = \sigma_{k+1}.</span>
+<span id="cb4-322"><a href="#cb4-322" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-323"><a href="#cb4-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-324"><a href="#cb4-324" aria-hidden="true" tabindex="-1"></a>Therefore $\Sigma_k$ is a best rank-$k$ approximation in spectral norm, and transferring back to $A$ gives</span>
+<span id="cb4-325"><a href="#cb4-325" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-326"><a href="#cb4-326" aria-hidden="true" tabindex="-1"></a>\min_{\mathrm{rank}(B)\le k}<span class="sc">\|</span>A-B<span class="sc">\|</span>_2 = \|A-A_k\|_2 = \sigma_{k+1}.</span>
+<span id="cb4-327"><a href="#cb4-327" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-328"><a href="#cb4-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-329"><a href="#cb4-329" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-330"><a href="#cb4-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-331"><a href="#cb4-331" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conclusion</span></span>
+<span id="cb4-332"><a href="#cb4-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-333"><a href="#cb4-333" aria-hidden="true" tabindex="-1"></a>For both norms,</span>
+<span id="cb4-334"><a href="#cb4-334" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-335"><a href="#cb4-335" aria-hidden="true" tabindex="-1"></a>A_k = U\Sigma_kV^\top \in \arg\min_{\mathrm{rank}(B)\le k}<span class="sc">\|</span>A-B<span class="sc">\|</span>.</span>
+<span id="cb4-336"><a href="#cb4-336" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-337"><a href="#cb4-337" aria-hidden="true" tabindex="-1"></a>Moreover,</span>
+<span id="cb4-338"><a href="#cb4-338" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-339"><a href="#cb4-339" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>A-A_k<span class="sc">\|</span>_F = \left(\sum_{i&gt;k}\sigma_i^2\right)^{1/2},</span>
+<span id="cb4-340"><a href="#cb4-340" aria-hidden="true" tabindex="-1"></a>\qquad</span>
+<span id="cb4-341"><a href="#cb4-341" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>A-A_k<span class="sc">\|</span>_2 = \sigma_{k+1}.</span>
+<span id="cb4-342"><a href="#cb4-342" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-343"><a href="#cb4-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-344"><a href="#cb4-344" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"proof-end"</span><span class="dt">&gt;</span>□<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb4-345"><a href="#cb4-345" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb4-346"><a href="#cb4-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-347"><a href="#cb4-347" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">details</span><span class="dt">&gt;</span></span>
+<span id="cb4-348"><a href="#cb4-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-349"><a href="#cb4-349" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-350"><a href="#cb4-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-351"><a href="#cb4-351" aria-hidden="true" tabindex="-1"></a><span class="fu">## Computational Example (Python)</span></span>
+<span id="cb4-352"><a href="#cb4-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-353"><a href="#cb4-353" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb4-354"><a href="#cb4-354" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-355"><a href="#cb4-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-356"><a href="#cb4-356" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">0</span>)</span>
+<span id="cb4-357"><a href="#cb4-357" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> rng.normal(size<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb4-358"><a href="#cb4-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-359"><a href="#cb4-359" aria-hidden="true" tabindex="-1"></a>U, s, Vt <span class="op">=</span> np.linalg.svd(A, full_matrices<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-360"><a href="#cb4-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-361"><a href="#cb4-361" aria-hidden="true" tabindex="-1"></a>U.shape, s, Vt.shape</span>
+<span id="cb4-362"><a href="#cb4-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-363"><a href="#cb4-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-364"><a href="#cb4-364" aria-hidden="true" tabindex="-1"></a>Reconstruction:</span>
+<span id="cb4-365"><a href="#cb4-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-366"><a href="#cb4-366" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb4-367"><a href="#cb4-367" aria-hidden="true" tabindex="-1"></a>A_reconstructed <span class="op">=</span> U <span class="op">@</span> np.diag(s) <span class="op">@</span> Vt</span>
+<span id="cb4-368"><a href="#cb4-368" aria-hidden="true" tabindex="-1"></a>np.allclose(A, A_reconstructed)</span>
+<span id="cb4-369"><a href="#cb4-369" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-370"><a href="#cb4-370" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-371"><a href="#cb4-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-372"><a href="#cb4-372" aria-hidden="true" tabindex="-1"></a><span class="fu">## Low-Rank Approximation in Practice</span></span>
+<span id="cb4-373"><a href="#cb4-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-374"><a href="#cb4-374" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb4-375"><a href="#cb4-375" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb4-376"><a href="#cb4-376" aria-hidden="true" tabindex="-1"></a>A_k <span class="op">=</span> U[:, :k] <span class="op">@</span> np.diag(s[:k]) <span class="op">@</span> Vt[:k, :]</span>
+<span id="cb4-377"><a href="#cb4-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-378"><a href="#cb4-378" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(A <span class="op">-</span> A_k, <span class="bu">ord</span><span class="op">=</span><span class="st">"fro"</span>)</span>
+<span id="cb4-379"><a href="#cb4-379" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb4-380"><a href="#cb4-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-381"><a href="#cb4-381" aria-hidden="true" tabindex="-1"></a><span class="fu">## Connection to PCA</span></span>
+<span id="cb4-382"><a href="#cb4-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-383"><a href="#cb4-383" aria-hidden="true" tabindex="-1"></a>Given a centered data matrix $X \in \mathbb{R}^{m \times n}$:</span>
+<span id="cb4-384"><a href="#cb4-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-385"><a href="#cb4-385" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SVD: $X = U \Sigma V^\top$</span>
+<span id="cb4-386"><a href="#cb4-386" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Covariance: $X^\top X = V \Sigma^2 V^\top$</span>
+<span id="cb4-387"><a href="#cb4-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-388"><a href="#cb4-388" aria-hidden="true" tabindex="-1"></a>Thus:</span>
+<span id="cb4-389"><a href="#cb4-389" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>right singular vectors = principal directions,</span>
+<span id="cb4-390"><a href="#cb4-390" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>squared singular values = explained variance (up to normalization).</span>
+<span id="cb4-391"><a href="#cb4-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-392"><a href="#cb4-392" aria-hidden="true" tabindex="-1"></a>PCA can be computed **directly via SVD**, without forming the covariance matrix.</span>
+<span id="cb4-393"><a href="#cb4-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-394"><a href="#cb4-394" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-395"><a href="#cb4-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-396"><a href="#cb4-396" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conditioning and Stability</span></span>
+<span id="cb4-397"><a href="#cb4-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-398"><a href="#cb4-398" aria-hidden="true" tabindex="-1"></a>The **condition number** of $A$ is:</span>
+<span id="cb4-399"><a href="#cb4-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-400"><a href="#cb4-400" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-401"><a href="#cb4-401" aria-hidden="true" tabindex="-1"></a>\kappa(A) = \frac{\sigma_{\max}}{\sigma_{\min}}.</span>
+<span id="cb4-402"><a href="#cb4-402" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb4-403"><a href="#cb4-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-404"><a href="#cb4-404" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Large $\kappa(A)$ implies ill-conditioned problems.</span>
+<span id="cb4-405"><a href="#cb4-405" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Small singular values amplify noise and numerical errors.</span>
+<span id="cb4-406"><a href="#cb4-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-407"><a href="#cb4-407" aria-hidden="true" tabindex="-1"></a>This explains why SVD is crucial for:</span>
+<span id="cb4-408"><a href="#cb4-408" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>diagnosing instability,</span>
+<span id="cb4-409"><a href="#cb4-409" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>regularization (e.g. truncated SVD).</span>
+<span id="cb4-410"><a href="#cb4-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-411"><a href="#cb4-411" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-412"><a href="#cb4-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-413"><a href="#cb4-413" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Science Applications</span></span>
+<span id="cb4-414"><a href="#cb4-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-415"><a href="#cb4-415" aria-hidden="true" tabindex="-1"></a><span class="fu">### Dimensionality Reduction</span></span>
+<span id="cb4-416"><a href="#cb4-416" aria-hidden="true" tabindex="-1"></a>Keep only the first $k$ singular values and vectors to obtain a low-dimensional representation.</span>
+<span id="cb4-417"><a href="#cb4-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-418"><a href="#cb4-418" aria-hidden="true" tabindex="-1"></a><span class="fu">### Compression</span></span>
+<span id="cb4-419"><a href="#cb4-419" aria-hidden="true" tabindex="-1"></a>Store $U_k$, $\Sigma_k$, and $V_k$ instead of the full matrix $A$.</span>
+<span id="cb4-420"><a href="#cb4-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-421"><a href="#cb4-421" aria-hidden="true" tabindex="-1"></a><span class="fu">### Recommender Systems</span></span>
+<span id="cb4-422"><a href="#cb4-422" aria-hidden="true" tabindex="-1"></a>User–item interaction matrices are approximated by low-rank SVD to uncover latent factors.</span>
+<span id="cb4-423"><a href="#cb4-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-424"><a href="#cb4-424" aria-hidden="true" tabindex="-1"></a><span class="fu">### Latent Semantic Analysis</span></span>
+<span id="cb4-425"><a href="#cb4-425" aria-hidden="true" tabindex="-1"></a>Text–term matrices are decomposed to identify latent semantic structure in documents.</span>
+<span id="cb4-426"><a href="#cb4-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-427"><a href="#cb4-427" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-428"><a href="#cb4-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-429"><a href="#cb4-429" aria-hidden="true" tabindex="-1"></a><span class="fu">## What SVD Does *Not* Assume</span></span>
+<span id="cb4-430"><a href="#cb4-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-431"><a href="#cb4-431" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>no symmetry,</span>
+<span id="cb4-432"><a href="#cb4-432" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>no invertibility,</span>
+<span id="cb4-433"><a href="#cb4-433" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>no square shape.</span>
+<span id="cb4-434"><a href="#cb4-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-435"><a href="#cb4-435" aria-hidden="true" tabindex="-1"></a>This universality makes SVD the **central tool** of applied linear algebra.</span>
+<span id="cb4-436"><a href="#cb4-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-437"><a href="#cb4-437" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-438"><a href="#cb4-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-439"><a href="#cb4-439" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary</span></span>
+<span id="cb4-440"><a href="#cb4-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-441"><a href="#cb4-441" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>SVD generalizes the Spectral Theorem.</span>
+<span id="cb4-442"><a href="#cb4-442" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Any matrix admits an orthogonal decomposition.</span>
+<span id="cb4-443"><a href="#cb4-443" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Singular values quantify intrinsic dimensionality.</span>
+<span id="cb4-444"><a href="#cb4-444" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Truncated SVD yields optimal low-rank approximations.</span>
+<span id="cb4-445"><a href="#cb4-445" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>PCA and many Data Science methods are special cases of SVD.</span>
+<span id="cb4-446"><a href="#cb4-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-447"><a href="#cb4-447" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb4-448"><a href="#cb4-448" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-449"><a href="#cb4-449" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preview: Regularization and Truncated SVD</span></span>
+<span id="cb4-450"><a href="#cb4-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-451"><a href="#cb4-451" aria-hidden="true" tabindex="-1"></a>Small singular values cause instability.</span>
+<span id="cb4-452"><a href="#cb4-452" aria-hidden="true" tabindex="-1"></a>In the next chapter, we study:</span>
+<span id="cb4-453"><a href="#cb4-453" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-454"><a href="#cb4-454" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>truncated SVD,</span>
+<span id="cb4-455"><a href="#cb4-455" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tikhonov (ridge) regularization,</span>
+<span id="cb4-456"><a href="#cb4-456" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>bias–variance trade-offs.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

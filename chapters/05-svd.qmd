@@ -128,7 +128,7 @@ This yields $A = U \Sigma V^\top$.
 
 ## Best Rank-$k$ Approximation
 
-One of the most important properties of SVD is optimal low-rank approximation.
+One of the most important properties of SVD is optimal low-rank approximation [@eckart1936approximation; @mirsky1960symmetric].
 
 ::: {.mathbox .theorem}
 <div class="mathbox-title">Theorem (Eckart–Young–Mirsky)</div>
@@ -155,15 +155,192 @@ $$
 ---
 
 <details class="proof-toggle">
-<summary>Why SVD gives the best approximation (idea)</summary>
+<summary>Proof of the Eckart–Young–Mirsky Theorem (rigorous, click to expand)</summary>
 
 ::: {.mathbox .proof}
-<div class="mathbox-title">Proof (idea)</div>
+<div class="mathbox-title">Proof (Eckart–Young–Mirsky)</div>
 
-The singular values measure the amount of energy carried by each rank-one component.
-Any rank-$k$ matrix can capture at most the first $k$ singular directions.
+Let $A\in\mathbb{R}^{m\times n}$ have SVD
+$$
+A=U\Sigma V^\top,
+\qquad
+\Sigma=\mathrm{diag}(\sigma_1,\dots,\sigma_r)\in\mathbb{R}^{m\times n},
+\qquad
+\sigma_1\ge \cdots \ge \sigma_r>0,
+$$
+where $r=\mathrm{rank}(A)$ and we set $\sigma_i=0$ for $i>r$.
 
-Discarding $\sigma_{k+1}, \sigma_{k+2}, \dots$ minimizes the residual norm.
+For $k<r$, define the truncated SVD
+$$
+A_k := U\Sigma_k V^\top,
+\qquad
+\Sigma_k=\mathrm{diag}(\sigma_1,\dots,\sigma_k,0,\dots,0).
+$$
+
+We prove that for both the Frobenius norm $\|\cdot\|_F$ and the operator (spectral) norm $\|\cdot\|_2$,
+$$
+\|A-A_k\| = \min_{\mathrm{rank}(B)\le k}\|A-B\|.
+$$
+
+---
+
+## Step 1: Reduce to the diagonal case
+
+Both $\|\cdot\|_F$ and $\|\cdot\|_2$ are **orthogonally invariant**:
+for orthogonal $Q_1,Q_2$,
+$$
+\|Q_1MQ_2\|_F=\|M\|_F,
+\qquad
+\|Q_1MQ_2\|_2=\|M\|_2.
+$$
+
+Fix any matrix $B$ with $\mathrm{rank}(B)\le k$ and set
+$$
+C := U^\top B V.
+$$
+Then $\mathrm{rank}(C)=\mathrm{rank}(B)\le k$ and
+$$
+\|A-B\|
+=\|U\Sigma V^\top - B\|
+=\|\Sigma - U^\top B V\|
+=\|\Sigma - C\|.
+$$
+Therefore,
+$$
+\min_{\mathrm{rank}(B)\le k}\|A-B\|
+=
+\min_{\mathrm{rank}(C)\le k}\|\Sigma-C\|.
+$$
+
+So it suffices to prove the theorem for $\Sigma$ and its truncation $\Sigma_k$.
+
+---
+
+## Part A: Frobenius norm optimality
+
+Let $C$ be any matrix with $\mathrm{rank}(C)\le k$ and denote its singular values by
+$$
+\tau_1\ge \tau_2\ge \cdots \ge \tau_k\ge 0,
+\qquad
+\tau_i=0 \text{ for } i>k.
+$$
+
+We use the identity
+$$
+\|\Sigma-C\|_F^2
+= \|\Sigma\|_F^2 + \|C\|_F^2 - 2\,\mathrm{tr}(\Sigma^\top C).
+$$
+
+### Key inequality (von Neumann trace inequality)
+For any matrices $X,Y$ of the same size, the trace satisfies
+$$
+\mathrm{tr}(X^\top Y)\le \sum_{i\ge 1} s_i(X)\,s_i(Y),
+$$
+where $s_i(\cdot)$ denotes singular values in nonincreasing order.
+Applying this to $X=\Sigma$ and $Y=C$ gives
+$$
+\mathrm{tr}(\Sigma^\top C)
+\le
+\sum_{i\ge 1} \sigma_i\,\tau_i
+=
+\sum_{i=1}^k \sigma_i\,\tau_i,
+$$
+since $\tau_i=0$ for $i>k$.
+
+Hence,
+\begin{align*}
+\|\Sigma-C\|_F^2
+&\ge
+\sum_{i\ge 1}\sigma_i^2
++
+\sum_{i=1}^k \tau_i^2
+-
+2\sum_{i=1}^k \sigma_i\tau_i \\
+&=
+\sum_{i=1}^k(\sigma_i-\tau_i)^2
++
+\sum_{i>k}\sigma_i^2 \\
+&\ge
+\sum_{i>k}\sigma_i^2.
+\end{align*}
+
+Therefore,
+$$
+\|\Sigma-C\|_F \;\ge\; \left(\sum_{i>k}\sigma_i^2\right)^{1/2}.
+$$
+
+### Achievability
+Choose $C=\Sigma_k$. Then
+$$
+\|\Sigma-\Sigma_k\|_F^2 = \sum_{i>k}\sigma_i^2,
+$$
+so equality is achieved and $\Sigma_k$ is a best rank-$k$ approximation in Frobenius norm.  
+Returning to $A=U\Sigma V^\top$, we obtain that $A_k=U\Sigma_kV^\top$ is optimal and
+$$
+\min_{\mathrm{rank}(B)\le k}\|A-B\|_F = \|A-A_k\|_F = \left(\sum_{i>k}\sigma_i^2\right)^{1/2}.
+$$
+
+---
+
+## Part B: Spectral norm optimality
+
+We now prove
+$$
+\min_{\mathrm{rank}(C)\le k}\|\Sigma-C\|_2 = \sigma_{k+1},
+$$
+(where $\sigma_{k+1}>0$ since $k<r$).
+
+Let $C$ have rank $\le k$. Then its $(k+1)$-th singular value is zero:
+$$
+\tau_{k+1}(C)=0.
+$$
+
+### Key inequality (Weyl-type singular value inequality)
+For any matrices $X,Y$ of the same size and any indices $i,j$ with $i+j-1$ valid,
+$$
+s_{i+j-1}(X+Y)\le s_i(X)+s_j(Y).
+$$
+
+Apply this with $X=\Sigma-C$ and $Y=C$, so that $X+Y=\Sigma$.
+Choose $i=1$ and $j=k+1$. Then
+$$
+s_{k+1}(\Sigma)
+\le
+s_1(\Sigma-C)+s_{k+1}(C)
+=
+\|\Sigma-C\|_2 + 0.
+$$
+Hence,
+$$
+\|\Sigma-C\|_2 \ge s_{k+1}(\Sigma)=\sigma_{k+1}.
+$$
+
+### Achievability
+Take $C=\Sigma_k$. Then $\Sigma-\Sigma_k$ is diagonal with largest diagonal entry $\sigma_{k+1}$, so
+$$
+\|\Sigma-\Sigma_k\|_2 = \sigma_{k+1}.
+$$
+
+Therefore $\Sigma_k$ is a best rank-$k$ approximation in spectral norm, and transferring back to $A$ gives
+$$
+\min_{\mathrm{rank}(B)\le k}\|A-B\|_2 = \|A-A_k\|_2 = \sigma_{k+1}.
+$$
+
+---
+
+## Conclusion
+
+For both norms,
+$$
+A_k = U\Sigma_kV^\top \in \arg\min_{\mathrm{rank}(B)\le k}\|A-B\|.
+$$
+Moreover,
+$$
+\|A-A_k\|_F = \left(\sum_{i>k}\sigma_i^2\right)^{1/2},
+\qquad
+\|A-A_k\|_2 = \sigma_{k+1}.
+$$
+
 <span class="proof-end">□</span>
 :::
 
