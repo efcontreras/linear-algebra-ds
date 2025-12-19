@@ -1,0 +1,393 @@
+---
+title: "Regularization and Truncated SVD"
+---
+
+## Motivation
+
+Singular values quantify how strongly a matrix acts along different directions.
+When some singular values are **very small**, linear inverse problems become unstable:
+small perturbations in the data can lead to large changes in the solution.
+
+**Regularization** addresses this instability by damping or discarding
+directions associated with small singular values.
+
+Two central regularization strategies are:
+
+- **Truncated SVD (TSVD)**,
+- **Tikhonov regularization (ridge regression)**.
+
+Both admit a clean **spectral interpretation**.
+
+---
+
+## Ill-Posed Linear Problems
+
+Consider the linear model
+
+$$
+Ax \approx b,
+$$
+
+with $A \in \mathbb{R}^{m \times n}$ and noisy data $b$.
+
+If $A$ has small singular values, the least-squares solution
+
+$$
+x^\star = \arg\min_x \|Ax - b\|_2^2
+$$
+
+is unstable.
+
+---
+
+## Least Squares in SVD Coordinates
+
+Let
+
+$$
+A = U \Sigma V^\top
+$$
+
+be the SVD of $A$.
+The least-squares solution can be written as
+
+$$
+x^\star = \sum_{i=1}^r \frac{u_i^\top b}{\sigma_i} v_i.
+$$
+
+This expression makes the instability explicit:
+
+- coefficients are divided by $\sigma_i$,
+- small $\sigma_i$ amplify noise.
+
+---
+
+## Truncated SVD (TSVD)
+
+### Definition
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Truncated SVD)</div>
+
+Let $k < r = \mathrm{rank}(A)$.
+The **truncated SVD solution** is defined as
+
+$$
+x_k := \sum_{i=1}^k \frac{u_i^\top b}{\sigma_i} v_i.
+$$
+:::
+
+This corresponds to discarding all singular components
+associated with $\sigma_{k+1},\dots,\sigma_r$.
+
+---
+
+### Geometric Interpretation
+
+- Keep only the $k$ most informative directions.
+- Project data onto a $k$-dimensional dominant subspace.
+- Discard directions dominated by noise.
+
+TSVD is a **hard spectral filter**.
+
+---
+
+## Optimality Perspective
+
+::: {.mathbox .theorem}
+<div class="mathbox-title">Theorem</div>
+
+The truncated SVD solution minimizes
+
+$$
+\|Ax - b\|_2
+$$
+
+over all solutions $x$ constrained to lie in the span of the first $k$
+right singular vectors of $A$.
+:::
+
+Thus, TSVD solves a constrained optimization problem.
+
+---
+
+## Tikhonov Regularization (Ridge)
+
+### Definition
+
+Instead of discarding components, ridge regression penalizes large solutions:
+
+$$
+x_\lambda := \arg\min_x \bigl( \|Ax - b\|_2^2 + \lambda \|x\|_2^2 \bigr),
+$$
+
+with $\lambda > 0$.
+
+---
+
+### Spectral Form
+
+In SVD coordinates, the ridge solution is
+
+$$
+x_\lambda = \sum_{i=1}^r
+\frac{\sigma_i}{\sigma_i^2 + \lambda}
+(u_i^\top b)\, v_i.
+$$
+
+Each component is multiplied by a **filter factor**
+
+$$
+f_\lambda(\sigma_i) = \frac{\sigma_i}{\sigma_i^2 + \lambda}.
+$$
+
+---
+
+## Hard vs. Soft Spectral Filtering
+
+| Method | Filter behavior |
+|------|-----------------|
+| Truncated SVD | $f(\sigma)=1/\sigma$ for $i\le k$, $0$ otherwise |
+| Ridge | smooth damping for all $\sigma_i$ |
+| No regularization | $1/\sigma$ (unstable) |
+
+- TSVD: **hard cutoff**
+- Ridge: **soft shrinkage**
+
+---
+
+## Bias–Variance Trade-off
+
+Regularization introduces bias but reduces variance.
+
+- Small $k$ (or large $\lambda$):
+  - high bias,
+  - low variance.
+- Large $k$ (or small $\lambda$):
+  - low bias,
+  - high variance.
+
+This trade-off is fundamental in statistical learning.
+
+---
+
+## Computational Example (Python)
+
+```{python}
+import numpy as np
+
+rng = np.random.default_rng(0)
+A = rng.normal(size=(50, 30))
+x_true = rng.normal(size=30)
+b = A @ x_true + 0.1 * rng.normal(size=50)
+
+U, s, Vt = np.linalg.svd(A, full_matrices=False)
+
+# TSVD
+k = 10
+x_tsvd = sum((U[:, i] @ b) / s[i] * Vt[i] for i in range(k))
+
+# Ridge
+lam = 0.5
+x_ridge = sum((s[i] / (s[i]**2 + lam)) * (U[:, i] @ b) * Vt[i]
+              for i in range(len(s)))
+
+np.linalg.norm(x_true - x_tsvd), np.linalg.norm(x_true - x_ridge)
+```
+
+## Choosing the Regularization Parameter
+
+### For Truncated SVD
+- scree plot of singular values,
+- cumulative explained energy,
+- cross-validation.
+
+### For Ridge
+- cross-validation,
+- L-curve,
+- discrepancy principle.
+
+---
+
+## Relation to PCA and Dimensionality Reduction
+
+- Truncated SVD corresponds to PCA truncation.
+- Ridge keeps all components but shrinks them.
+- PCA + regression ≈ truncated spectral solution.
+
+---
+
+## When to Use Which Method
+
+### Use Truncated SVD when:
+- a clear spectral gap exists,
+- dimensionality reduction is desired,
+- interpretability matters.
+
+### Use Ridge when:
+- the spectrum decays smoothly,
+- stability is critical,
+- prediction accuracy is the goal.
+
+---
+
+## Summary
+
+- Small singular values cause instability.
+- Truncated SVD removes unstable directions.
+- Ridge regularization damps all directions smoothly.
+- Both methods admit clean spectral interpretations.
+- Regularization is fundamentally a spectral filtering problem.
+
+---
+
+## Preview: Spectral Clustering
+
+Eigenvectors of graph Laplacians can be used
+to uncover cluster structure in data.
+
+Next, we study **spectral clustering** as another
+application of spectral theory.
+
+
+
+### Scree Plot (Singular Values)
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Assume: s is the 1D array of singular values from SVD, sorted decreasingly.
+# Example: U, s, Vt = np.linalg.svd(A, full_matrices=False)
+
+fig, ax = plt.subplots()
+ax.plot(np.arange(1, len(s) + 1), s, marker="o")
+ax.set_xlabel("Index i")
+ax.set_ylabel("Singular value σᵢ")
+ax.set_title("Scree plot of singular values")
+ax.grid(True)
+plt.show()
+```
+
+
+---
+
+
+
+### Cumulative Explained Energy
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+energy = s**2
+cum_energy = np.cumsum(energy) / np.sum(energy)
+
+fig, ax = plt.subplots()
+ax.plot(np.arange(1, len(s) + 1), cum_energy, marker="o")
+ax.set_xlabel("k")
+ax.set_ylabel("Cumulative explained energy")
+ax.set_title("Cumulative explained energy vs k")
+ax.set_ylim(0, 1.02)
+ax.grid(True)
+
+# Optional: a common threshold (e.g., 90% or 95%)
+threshold = 0.95
+ax.axhline(threshold, linestyle="--")
+plt.show()
+
+# Suggested k for the chosen threshold
+k_star = int(np.searchsorted(cum_energy, threshold) + 1)
+k_star
+```
+
+
+---
+
+### TSVD Residual Curve: ‖Ax_k − b‖ vs k
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# We compute x_k and residual norms efficiently using SVD coordinates.
+# x_k = sum_{i=1}^k (u_i^T b / s_i) v_i
+# residual r_k = b - A x_k
+
+Ut_b = U.T @ b  # coefficients u_i^T b
+max_k = len(s)
+
+residual_norms = []
+for k in range(1, max_k + 1):
+    # Build x_k via right singular vectors:
+    x_k = (Vt[:k, :].T) @ (Ut_b[:k] / s[:k])
+    r_k = b - A @ x_k
+    residual_norms.append(np.linalg.norm(r_k))
+
+fig, ax = plt.subplots()
+ax.plot(np.arange(1, max_k + 1), residual_norms, marker="o")
+ax.set_xlabel("k")
+ax.set_ylabel("Residual norm ‖A x_k − b‖₂")
+ax.set_title("TSVD residual vs k")
+ax.grid(True)
+plt.show()
+```
+
+
+### Truncation Error: ‖A − A_k‖_F vs k
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# For full matrices, the Frobenius truncation error is determined by singular values:
+# ||A - A_k||_F^2 = sum_{i>k} s_i^2
+
+tail_energy = np.cumsum((s[::-1]**2))[::-1]  # tail sums of squares
+fro_errors = np.sqrt(np.r_[tail_energy[1:], 0.0])  # error for k=1..r, last is 0
+
+fig, ax = plt.subplots()
+ax.plot(np.arange(1, len(s) + 1), fro_errors, marker="o")
+ax.set_xlabel("k")
+ax.set_ylabel("‖A − A_k‖_F")
+ax.set_title("Frobenius truncation error vs k")
+ax.grid(True)
+plt.show()
+```
+
+
+---
+
+### L-curve for Ridge Regularization
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Ridge solution in SVD coordinates:
+# x_λ = sum_i (s_i / (s_i^2 + λ)) (u_i^T b) v_i
+
+Ut_b = U.T @ b
+r = len(s)
+
+# Choose a grid of lambdas (log-spaced)
+lambdas = np.logspace(-6, 2, 60)
+
+x_norms = []
+res_norms = []
+
+for lam in lambdas:
+    coeffs = (s / (s**2 + lam)) * Ut_b[:r]
+    x_lam = Vt.T @ coeffs
+    res = A @ x_lam - b
+    x_norms.append(np.linalg.norm(x_lam))
+    res_norms.append(np.linalg.norm(res))
+
+fig, ax = plt.subplots()
+ax.plot(res_norms, x_norms, marker="o")
+ax.set_xlabel("‖A x_λ − b‖₂ (residual norm)")
+ax.set_ylabel("‖x_λ‖₂ (solution norm)")
+ax.set_title("L-curve for ridge regularization")
+ax.grid(True)
+plt.show()
+```

@@ -1,0 +1,279 @@
+---
+title: "Singular Value Decomposition (SVD)"
+---
+
+## Motivation
+
+The **Singular Value Decomposition (SVD)** is the most important matrix factorization
+in modern applied linear algebra.
+
+Unlike eigenvalue decompositions, SVD:
+
+- applies to **any matrix** (square or rectangular),
+- is numerically stable,
+- reveals intrinsic dimensionality,
+- provides optimal low-rank approximations.
+
+In Data Science, SVD underlies:
+- PCA,
+- dimensionality reduction,
+- data compression,
+- recommender systems,
+- latent semantic analysis.
+
+---
+
+## Statement of the SVD
+
+::: {.mathbox .theorem}
+<div class="mathbox-title">Theorem (Singular Value Decomposition)</div>
+
+Let $A \in \mathbb{R}^{m \times n}$.
+There exist orthogonal matrices
+
+$$
+U \in \mathbb{R}^{m \times m}, \qquad
+V \in \mathbb{R}^{n \times n},
+$$
+
+and a diagonal matrix
+
+$$
+\Sigma \in \mathbb{R}^{m \times n},
+$$
+
+with nonnegative diagonal entries
+
+$$
+\sigma_1 \ge \sigma_2 \ge \cdots \ge \sigma_r > 0,
+$$
+
+such that
+
+$$
+A = U \Sigma V^\top.
+$$
+
+The numbers $\sigma_i$ are the **singular values** of $A$.
+:::
+
+---
+
+## Structure of the Decomposition
+
+- Columns of $V$: **right singular vectors**
+- Columns of $U$: **left singular vectors**
+- $\Sigma$: scaling along orthogonal directions
+
+Only the first $r = \mathrm{rank}(A)$ singular values are nonzero.
+
+---
+
+## Geometric Interpretation
+
+The SVD describes the action of $A$ as:
+
+1. rotation/reflection by $V^\top$,
+2. scaling by $\Sigma$,
+3. rotation/reflection by $U$.
+
+Thus, $A$ maps the unit sphere in $\mathbb{R}^n$
+to an ellipsoid in $\mathbb{R}^m$.
+
+---
+
+## Rank-One Decomposition
+
+The SVD can be written as a sum of rank-one operators:
+
+$$
+A = \sum_{i=1}^r \sigma_i \, u_i v_i^\top.
+$$
+
+Each term:
+- projects onto $v_i$,
+- scales by $\sigma_i$,
+- maps to direction $u_i$.
+
+---
+
+## Proof Sketch of Existence
+
+<details class="proof-toggle">
+<summary>Proof sketch (click to expand)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof (sketch)</div>
+
+1. Consider the symmetric matrix $A^\top A$.
+2. By the Spectral Theorem, there exists an orthonormal basis of eigenvectors
+   $\{v_i\}$ with eigenvalues $\lambda_i \ge 0$.
+3. Define singular values $\sigma_i = \sqrt{\lambda_i}$.
+4. For $\sigma_i > 0$, define $u_i = \frac{1}{\sigma_i} A v_i$.
+5. Show that $\{u_i\}$ is orthonormal and that
+
+   $$
+   A v_i = \sigma_i u_i.
+   $$
+
+6. Extend $\{u_i\}$ and $\{v_i\}$ to orthonormal bases of $\mathbb{R}^m$ and $\mathbb{R}^n$.
+
+This yields $A = U \Sigma V^\top$.
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+---
+
+## Best Rank-$k$ Approximation
+
+One of the most important properties of SVD is optimal low-rank approximation.
+
+::: {.mathbox .theorem}
+<div class="mathbox-title">Theorem (Eckart–Young–Mirsky)</div>
+
+Let $A = \sum_{i=1}^r \sigma_i u_i v_i^\top$ be the SVD of $A$.
+For $k < r$, define
+
+$$
+A_k := \sum_{i=1}^k \sigma_i u_i v_i^\top.
+$$
+
+Then $A_k$ is the best rank-$k$ approximation of $A$ in both:
+
+- Frobenius norm,
+- operator (spectral) norm.
+
+That is,
+
+$$
+\|A - A_k\| = \min_{\mathrm{rank}(B)\le k} \|A - B\|.
+$$
+:::
+
+---
+
+<details class="proof-toggle">
+<summary>Why SVD gives the best approximation (idea)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof (idea)</div>
+
+The singular values measure the amount of energy carried by each rank-one component.
+Any rank-$k$ matrix can capture at most the first $k$ singular directions.
+
+Discarding $\sigma_{k+1}, \sigma_{k+2}, \dots$ minimizes the residual norm.
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+---
+
+## Computational Example (Python)
+
+```python
+import numpy as np
+
+rng = np.random.default_rng(0)
+A = rng.normal(size=(6, 4))
+
+U, s, Vt = np.linalg.svd(A, full_matrices=False)
+
+U.shape, s, Vt.shape
+```
+
+Reconstruction:
+
+```python
+A_reconstructed = U @ np.diag(s) @ Vt
+np.allclose(A, A_reconstructed)
+```
+---
+
+## Low-Rank Approximation in Practice
+
+```python
+k = 2
+A_k = U[:, :k] @ np.diag(s[:k]) @ Vt[:k, :]
+
+np.linalg.norm(A - A_k, ord="fro")
+```
+
+## Connection to PCA
+
+Given a centered data matrix $X \in \mathbb{R}^{m \times n}$:
+
+- SVD: $X = U \Sigma V^\top$
+- Covariance: $X^\top X = V \Sigma^2 V^\top$
+
+Thus:
+- right singular vectors = principal directions,
+- squared singular values = explained variance (up to normalization).
+
+PCA can be computed **directly via SVD**, without forming the covariance matrix.
+
+---
+
+## Conditioning and Stability
+
+The **condition number** of $A$ is:
+
+$$
+\kappa(A) = \frac{\sigma_{\max}}{\sigma_{\min}}.
+$$
+
+- Large $\kappa(A)$ implies ill-conditioned problems.
+- Small singular values amplify noise and numerical errors.
+
+This explains why SVD is crucial for:
+- diagnosing instability,
+- regularization (e.g. truncated SVD).
+
+---
+
+## Data Science Applications
+
+### Dimensionality Reduction
+Keep only the first $k$ singular values and vectors to obtain a low-dimensional representation.
+
+### Compression
+Store $U_k$, $\Sigma_k$, and $V_k$ instead of the full matrix $A$.
+
+### Recommender Systems
+User–item interaction matrices are approximated by low-rank SVD to uncover latent factors.
+
+### Latent Semantic Analysis
+Text–term matrices are decomposed to identify latent semantic structure in documents.
+
+---
+
+## What SVD Does *Not* Assume
+
+- no symmetry,
+- no invertibility,
+- no square shape.
+
+This universality makes SVD the **central tool** of applied linear algebra.
+
+---
+
+## Summary
+
+- SVD generalizes the Spectral Theorem.
+- Any matrix admits an orthogonal decomposition.
+- Singular values quantify intrinsic dimensionality.
+- Truncated SVD yields optimal low-rank approximations.
+- PCA and many Data Science methods are special cases of SVD.
+
+---
+
+## Preview: Regularization and Truncated SVD
+
+Small singular values cause instability.
+In the next chapter, we study:
+
+- truncated SVD,
+- Tikhonov (ridge) regularization,
+- bias–variance trade-offs.

@@ -1,0 +1,300 @@
+---
+title: "Spectral Clustering"
+---
+
+## Motivation
+
+Many datasets exhibit **cluster structure** that cannot be captured by
+linear separation in the original feature space.
+
+Spectral clustering approaches this problem by:
+
+- representing data as a **graph**,
+- using eigenvectors of a graph Laplacian,
+- embedding data into a low-dimensional spectral space,
+- performing clustering in that space.
+
+This method is fundamentally based on **spectral theory** and
+connects linear algebra, graph theory, and geometry.
+
+---
+
+## From Data to Graphs
+
+Let $\{x_1,\dots,x_n\} \subset \mathbb{R}^d$ be a dataset.
+
+We construct a weighted, undirected graph:
+- nodes correspond to data points,
+- edges encode similarity.
+
+---
+
+## Similarity Matrix
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Similarity matrix)</div>
+
+The **similarity matrix** $W \in \mathbb{R}^{n \times n}$ is defined by
+
+$$
+W_{ij} = s(x_i, x_j),
+$$
+
+where $s(\cdot,\cdot)$ is a symmetric similarity function.
+
+Common choices include:
+- Gaussian kernel:
+  $$
+  W_{ij} = \exp\!\left(-\frac{\|x_i - x_j\|^2}{2\sigma^2}\right),
+  $$
+- $k$-nearest neighbors (binary or weighted).
+
+We assume $W_{ij} \ge 0$ and $W_{ii} = 0$.
+:::
+
+---
+
+## Degree Matrix
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Degree matrix)</div>
+
+The **degree matrix** $D$ is diagonal, with entries
+
+$$
+D_{ii} = \sum_{j=1}^n W_{ij}.
+$$
+:::
+
+---
+
+## Graph Laplacians
+
+### Unnormalized Laplacian
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Unnormalized Laplacian)</div>
+
+The unnormalized graph Laplacian is
+
+$$
+L = D - W.
+$$
+:::
+
+---
+
+### Normalized Laplacians
+
+Two normalized variants are commonly used.
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Normalized Laplacians)</div>
+
+The **random-walk Laplacian** is
+
+$$
+L_{\mathrm{rw}} = I - D^{-1} W.
+$$
+
+The **symmetric normalized Laplacian** is
+
+$$
+L_{\mathrm{sym}} = I - D^{-1/2} W D^{-1/2}.
+$$
+:::
+
+In practice, $L_{\mathrm{sym}}$ is the most widely used.
+
+---
+
+## Spectral Properties
+
+::: {.mathbox .theorem}
+<div class="mathbox-title">Theorem</div>
+
+For any graph Laplacian $L$:
+
+1. $L$ is symmetric positive semidefinite.
+2. The smallest eigenvalue is $0$.
+3. The multiplicity of the eigenvalue $0$ equals the number of
+   connected components of the graph.
+:::
+
+---
+
+<details class="proof-toggle">
+<summary>Why the Laplacian is positive semidefinite (click to expand)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof</div>
+
+For the unnormalized Laplacian $L = D - W$ and any $f \in \mathbb{R}^n$,
+
+$$
+f^\top L f
+= \frac{1}{2} \sum_{i,j} W_{ij} (f_i - f_j)^2 \ge 0.
+$$
+
+Hence $L$ is positive semidefinite.
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+---
+
+## Clustering as a Graph Cut Problem
+
+Clustering can be formulated as minimizing a graph cut:
+
+$$
+\mathrm{cut}(A,B) = \sum_{i \in A,\, j \in B} W_{ij}.
+$$
+
+However, minimizing raw cuts leads to unbalanced partitions.
+
+Normalized objectives such as:
+- **Ratio Cut**
+- **Normalized Cut**
+
+lead naturally to spectral relaxations involving Laplacians.
+
+---
+
+## Spectral Relaxation
+
+The discrete clustering problem is NP-hard.
+Spectral clustering replaces it by a continuous optimization problem:
+
+- relax indicator vectors to real-valued functions,
+- impose orthogonality constraints,
+- solve using eigenvectors of the Laplacian.
+
+The solution is given by the eigenvectors associated with the **smallest
+nonzero eigenvalues**.
+
+---
+
+## Spectral Clustering Algorithm
+
+Using the symmetric normalized Laplacian $L_{\mathrm{sym}}$:
+
+1. Construct the similarity matrix $W$.
+2. Compute $D$ and $L_{\mathrm{sym}}$.
+3. Compute the first $k$ eigenvectors of $L_{\mathrm{sym}}$.
+4. Form the matrix $U \in \mathbb{R}^{n \times k}$ from these eigenvectors.
+5. Normalize rows of $U$ to unit length.
+6. Apply $k$-means to the rows of $U$.
+
+The final labels are the cluster assignments.
+
+---
+
+## Geometric Interpretation
+
+- Eigenvectors embed nodes into a low-dimensional space.
+- In this space, clusters become approximately convex and separable.
+- $k$-means works effectively in the spectral embedding.
+
+Spectral clustering is thus:
+> **nonlinear clustering via linear algebra**.
+
+---
+
+## Computational Example (Python)
+
+```{python}
+import numpy as np
+from sklearn.datasets import make_moons
+from sklearn.cluster import KMeans
+from sklearn.metrics.pairwise import rbf_kernel
+from scipy.linalg import eigh
+
+# Generate nonlinearly separable data
+X, _ = make_moons(n_samples=300, noise=0.05)
+
+# Similarity matrix
+W = rbf_kernel(X, gamma=10.0)
+
+# Degree matrix
+D = np.diag(W.sum(axis=1))
+
+# Symmetric normalized Laplacian
+D_inv_sqrt = np.diag(1.0 / np.sqrt(np.diag(D)))
+L_sym = np.eye(len(X)) - D_inv_sqrt @ W @ D_inv_sqrt
+
+# Eigen-decomposition
+eigvals, eigvecs = eigh(L_sym)
+U = eigvecs[:, :2]
+
+# Row normalization
+U_norm = U / np.linalg.norm(U, axis=1, keepdims=True)
+
+# k-means
+labels = KMeans(n_clusters=2, n_init=10).fit_predict(U_norm)
+labels[:10]
+```
+## Choosing the Number of Clusters
+
+Choosing the number of clusters $k$ is a central modeling decision in spectral clustering.
+
+Common strategies include:
+
+- **Multiplicity of eigenvalue $0$**:  
+  In the ideal case of perfectly disconnected components, the number of
+  connected components equals the multiplicity of the eigenvalue $0$
+  of the graph Laplacian.
+
+- **Eigengap heuristic**:  
+  Sort eigenvalues $\lambda_1 \le \lambda_2 \le \cdots$ of the Laplacian.
+  A large gap between $\lambda_k$ and $\lambda_{k+1}$ suggests choosing $k$ clusters.
+
+- **Stability analysis**:  
+  Run spectral clustering for different values of $k$ and assess
+  the stability of the resulting partitions.
+
+- **Domain knowledge**:  
+  Structural or semantic constraints may dictate a natural choice of $k$.
+
+Eigenvalue gaps play a role analogous to scree plots in PCA.
+
+---
+
+## When Spectral Clustering Works Well
+
+### Advantages
+- captures nonlinear cluster structure,
+- flexible choice of similarity functions,
+- strong theoretical grounding via spectral graph theory.
+
+### Limitations
+- sensitive to kernel choice and hyperparameters,
+- eigen-decomposition can be computationally expensive for large $n$,
+- scalability often requires approximations (Nyström, sparse graphs).
+
+---
+
+## Connections to Other Methods
+
+- **Kernel PCA**: spectral embedding of kernel (Gram) matrices.
+- **Diffusion maps**: Markov process interpretation of random walks on graphs.
+- **Graph neural networks**: learnable spectral and message-passing operators.
+
+---
+
+## Summary
+
+- Spectral clustering reduces clustering to an eigenvalue problem.
+- Graph Laplacians encode connectivity and geometry.
+- Eigenvectors provide low-dimensional spectral embeddings.
+- The eigengap heuristic guides the choice of the number of clusters.
+- Spectral clustering is a paradigmatic application of spectral theory in Data Science.
+
+---
+
+## Preview: Final Remarks
+
+Spectral methods unify linear algebra, geometry, and data analysis.
+In the final chapter, we synthesize the main ideas and compare
+spectral techniques across applications.

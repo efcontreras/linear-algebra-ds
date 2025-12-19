@@ -1,0 +1,305 @@
+---
+title: "Spectral Theory of Linear Operators"
+---
+
+## Motivation
+
+Spectral theory studies how a linear operator acts by decomposing it into
+**independent directions** that are scaled.
+
+In finite-dimensional real vector spaces, this means understanding:
+
+- eigenvalues,
+- eigenvectors,
+- diagonalization,
+- orthogonal decompositions.
+
+In Data Science, spectral theory underlies:
+- PCA,
+- spectral clustering,
+- graph Laplacians,
+- low-rank approximations.
+
+---
+
+## Eigenvalues and Eigenvectors
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Eigenvalue and eigenvector)</div>
+
+Let $T:V\to V$ be a linear operator on a vector space $V$.
+A scalar $\lambda\in\mathbb{R}$ is an **eigenvalue** of $T$ if there exists
+a nonzero vector $v\in V$ such that
+
+$$
+T(v) = \lambda v.
+$$
+
+The vector $v$ is called an **eigenvector** associated with $\lambda$.
+:::
+
+For a matrix $A\in\mathbb{R}^{n\times n}$, this reads:
+
+$$
+Av = \lambda v.
+$$
+
+---
+
+## The Characteristic Polynomial
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Characteristic polynomial)</div>
+
+The **characteristic polynomial** of $A\in\mathbb{R}^{n\times n}$ is
+
+$$
+p_A(\lambda) := \det(A - \lambda I).
+$$
+:::
+
+Eigenvalues are the roots of $p_A$.
+
+---
+
+## Algebraic vs. Geometric Multiplicity
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition</div>
+
+Let $\lambda$ be an eigenvalue of $A$.
+
+- Its **algebraic multiplicity** is its multiplicity as a root of $p_A$.
+- Its **geometric multiplicity** is
+  $$
+  \dim \ker(A - \lambda I).
+  $$
+:::
+
+Always:
+$$
+1 \le \text{geometric multiplicity} \le \text{algebraic multiplicity}.
+$$
+
+---
+
+## Diagonalization
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Diagonalizable matrix)</div>
+
+A matrix $A\in\mathbb{R}^{n\times n}$ is **diagonalizable** if there exists
+an invertible matrix $P$ such that
+
+$$
+A = P D P^{-1},
+$$
+
+where $D$ is diagonal.
+:::
+
+Diagonal entries of $D$ are eigenvalues of $A$.
+
+---
+
+## Why Diagonalization Matters
+
+If $A = P D P^{-1}$, then:
+
+- powers: $A^k = P D^k P^{-1}$
+- exponentials: $e^{tA} = P e^{tD} P^{-1}$
+- dynamics decouple into independent modes
+
+This is why spectral theory is fundamental in:
+- linear dynamical systems,
+- diffusion processes,
+- graph methods.
+
+---
+
+## Self-Adjoint (Symmetric) Operators
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Self-adjoint operator)</div>
+
+A linear operator $T:V\to V$ on an inner product space is **self-adjoint**
+if
+
+$$
+\langle T u, v \rangle = \langle u, T v \rangle
+\quad \text{for all } u,v\in V.
+$$
+:::
+
+In matrix form (Euclidean inner product):
+
+$$
+A = A^\top.
+$$
+
+---
+
+## The Spectral Theorem (Finite-Dimensional)
+
+::: {.mathbox .theorem}
+<div class="mathbox-title">Theorem (Spectral Theorem)</div>
+
+Let $A\in\mathbb{R}^{n\times n}$ be symmetric.
+Then:
+
+1. All eigenvalues of $A$ are real.
+2. Eigenvectors corresponding to distinct eigenvalues are orthogonal.
+3. There exists an orthogonal matrix $Q$ such that
+
+$$
+A = Q \Lambda Q^\top,
+$$
+
+where $\Lambda$ is diagonal.
+:::
+
+---
+
+<details class="proof-toggle">
+<summary>Proof idea (click to expand)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof (idea)</div>
+
+The proof uses:
+- the fact that symmetric matrices define real quadratic forms,
+- maximization of the Rayleigh quotient on the unit sphere,
+- induction on dimension.
+
+Orthogonality follows from symmetry:
+if $Av=\lambda v$ and $Aw=\mu w$ with $\lambda\neq\mu$, then
+
+$$
+\lambda \langle v,w\rangle
+= \langle Av,w\rangle
+= \langle v,Aw\rangle
+= \mu \langle v,w\rangle,
+$$
+
+so $\langle v,w\rangle=0$.
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+---
+
+## Quadratic Forms and Rayleigh Quotient
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Rayleigh quotient)</div>
+
+For a symmetric matrix $A$ and nonzero $x$:
+
+$$
+R_A(x) := \frac{x^\top A x}{x^\top x}.
+$$
+:::
+
+::: {.mathbox .theorem}
+<div class="mathbox-title">Theorem</div>
+
+The maximum and minimum values of $R_A(x)$ over $x\neq 0$
+are the largest and smallest eigenvalues of $A$.
+:::
+
+This result is the **variational foundation of PCA**.
+
+---
+
+## Computational Example (Python)
+
+```python
+import numpy as np
+
+A = np.array([[2, 1],
+              [1, 3]])
+
+eigvals, eigvecs = np.linalg.eigh(A)
+eigvals, eigvecs
+```
+
+- `np.linalg.eigh` exploits symmetry.
+- Eigenvectors returned are orthonormal.
+
+---
+
+## Geometry of Spectral Decomposition
+
+The decomposition
+
+$$
+A = \sum_{i=1}^n \lambda_i\, v_i v_i^\top
+$$
+
+shows that a symmetric linear operator acts as:
+- projection onto the eigenvector $v_i$,
+- followed by scaling by the eigenvalue $\lambda_i$.
+
+This representation expresses $A$ as a **sum of rank-1 operators**.
+
+---
+
+## Data Science Connections
+
+### Principal Component Analysis (PCA)
+
+Given a centered data matrix $X \in \mathbb{R}^{m \times n}$, the empirical covariance matrix is
+
+$$
+\mathrm{Cov}(X) = \frac{1}{m} X^\top X,
+$$
+
+which is symmetric and positive semidefinite.
+
+PCA consists of computing the eigen-decomposition of $\mathrm{Cov}(X)$ and selecting
+the eigenvectors associated with the largest eigenvalues.
+
+---
+
+### Spectral Clustering
+
+In spectral clustering, data points are viewed as nodes of a graph.
+The (normalized) graph Laplacian is a symmetric matrix.
+
+Clustering is performed by embedding nodes using eigenvectors associated
+with the smallest nonzero eigenvalues of the Laplacian.
+
+---
+
+### Optimization and Conditioning
+
+Quadratic objectives of the form
+
+$$
+f(x) = x^\top A x
+$$
+
+are governed by the spectrum of $A$:
+
+- $f$ is convex if and only if $A \succeq 0$,
+- the conditioning of the problem is controlled by the ratio
+  $\lambda_{\max} / \lambda_{\min}$.
+
+---
+
+## Summary
+
+- Symmetric matrices admit orthogonal diagonalization.
+- Spectral decomposition expresses operators as sums of rank-1 projections.
+- PCA and spectral clustering are direct consequences of spectral theory.
+- Optimization behavior is dictated by eigenvalues.
+
+---
+
+## Preview: Singular Value Decomposition
+
+Not all matrices are symmetric.
+The **Singular Value Decomposition (SVD)** extends spectral ideas
+to arbitrary rectangular matrices and is the central decomposition
+in modern Data Science.

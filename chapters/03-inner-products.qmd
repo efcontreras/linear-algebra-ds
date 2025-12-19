@@ -1,0 +1,228 @@
+---
+title: "Inner Products and Geometry"
+---
+
+## Motivation
+
+Vector spaces become *geometric* once we introduce an **inner product**.
+This allows us to measure:
+
+- lengths (norms),
+- angles,
+- distances,
+- orthogonality and projections.
+
+In Data Science, these notions appear as:
+- Euclidean distance,
+- cosine similarity,
+- least squares,
+- PCA geometry.
+
+---
+
+## Inner Products
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Inner product)</div>
+
+Let $V$ be a real vector space. An **inner product** on $V$ is a map
+$\langle \cdot,\cdot\rangle : V\times V \to \mathbb{R}$ such that for all
+$u,v,w\in V$ and $\alpha\in\mathbb{R}$:
+
+1. $\langle u,v\rangle = \langle v,u\rangle$ (symmetry)
+2. $\langle \alpha u + v, w\rangle = \alpha\langle u,w\rangle + \langle v,w\rangle$ (linearity)
+3. $\langle v,v\rangle \ge 0$, with equality iff $v=0$ (positive definiteness)
+:::
+
+---
+
+## Canonical Examples
+
+### Euclidean inner product
+
+::: {.mathbox .example}
+<div class="mathbox-title">Example (Euclidean inner product)</div>
+
+On $\mathbb{R}^n$:
+$$
+\langle x,y\rangle := x^\top y = \sum_{i=1}^n x_i y_i.
+$$
+:::
+
+### Weighted inner product
+
+::: {.mathbox .example}
+<div class="mathbox-title">Example (Weighted inner product)</div>
+
+Let $W$ be a symmetric positive definite matrix.
+Define:
+$$
+\langle x,y\rangle_W := x^\top W y.
+$$
+
+This appears in generalized least squares.
+:::
+
+---
+
+## Norms and Distances
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Norm induced by an inner product)</div>
+
+The norm induced by $\langle\cdot,\cdot\rangle$ is:
+$$
+\|v\| := \sqrt{\langle v,v\rangle}.
+$$
+:::
+
+The associated distance is:
+$$
+d(u,v) := \|u-v\|.
+$$
+
+---
+
+## Cauchy–Schwarz Inequality
+
+::: {.mathbox .theorem}
+<div class="mathbox-title">Theorem (Cauchy–Schwarz)</div>
+
+For all $u,v\in V$:
+$$
+|\langle u,v\rangle| \le \|u\|\,\|v\|.
+$$
+:::
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof (idea)</div>
+
+Consider the function $f(t)=\|u-tv\|^2 \ge 0$ for all $t\in\mathbb{R}$.
+Expanding yields a quadratic polynomial in $t$ whose discriminant must be
+non-positive, which implies the inequality.
+<span class="proof-end">□</span>
+:::
+
+---
+
+## Angles and Cosine Similarity
+
+For nonzero vectors $u,v$, define the angle $\theta$ by:
+$$
+\cos\theta = \frac{\langle u,v\rangle}{\|u\|\|v\|}.
+$$
+
+::: {.mathbox .example}
+<div class="mathbox-title">Example (Cosine similarity)</div>
+
+In Data Science, the quantity
+$$
+\frac{\langle u,v\rangle}{\|u\|\|v\|}
+$$
+is known as **cosine similarity**, widely used in NLP and recommender systems.
+:::
+
+---
+
+## Orthogonality
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Orthogonal vectors)</div>
+
+Vectors $u$ and $v$ are **orthogonal** if
+$$
+\langle u,v\rangle = 0.
+$$
+:::
+
+Orthogonality generalizes the notion of “perpendicular”.
+
+---
+
+## Orthogonal Subspaces
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Orthogonal complement)</div>
+
+Given a subspace $W \subset V$, its **orthogonal complement** is:
+$$
+W^\perp := \{v\in V : \langle v,w\rangle = 0 \text{ for all } w\in W\}.
+$$
+:::
+
+::: {.mathbox .theorem}
+<div class="mathbox-title">Theorem</div>
+
+If $V$ is finite-dimensional, then:
+$$
+V = W \oplus W^\perp.
+$$
+:::
+
+---
+
+## Projections
+
+::: {.mathbox .theorem}
+<div class="mathbox-title">Theorem (Orthogonal projection)</div>
+
+Let $W$ be a finite-dimensional subspace of $V$.
+For every $v\in V$, there exists a unique decomposition:
+$$
+v = w + w^\perp,
+\quad w\in W,\; w^\perp\in W^\perp.
+$$
+
+The vector $w$ is the **orthogonal projection** of $v$ onto $W$.
+:::
+
+This theorem is the geometric heart of **least squares**.
+
+---
+
+## Computational Example (Python)
+
+```python
+import numpy as np
+
+# vectors
+u = np.array([1.0, 2.0])
+v = np.array([2.0, -1.0])
+
+# inner product, norms, cosine
+inner = u @ v
+norm_u = np.linalg.norm(u)
+norm_v = np.linalg.norm(v)
+cos_theta = inner / (norm_u * norm_v)
+
+inner, norm_u, norm_v, cos_theta
+```
+
+## Geometry of Data
+
+- Euclidean distance corresponds to squared loss.
+- Cosine similarity ignores magnitude and focuses on direction.
+- Orthogonality means no linear correlation.
+- Projections give the geometric meaning of regression.
+
+---
+
+## Preview: Least Squares
+
+Given $A \in \mathbb{R}^{m \times n}$ and $b \in \mathbb{R}^m$,
+least squares finds the projection of $b$ onto the column space of $A$.
+
+$$
+\min_{x \in \mathbb{R}^n} \|Ax - b\|_2^2
+$$
+
+This problem is solved entirely using inner products and orthogonality.
+
+---
+
+## Summary
+
+- Inner products turn algebra into geometry.
+- Norms, angles, and distances arise naturally.
+- Orthogonality and projections are central concepts.
+- Least squares and PCA are geometric problems.

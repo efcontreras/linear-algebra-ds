@@ -1,0 +1,521 @@
+---
+title: "Appendix: Computational Cost, Complexity, and Counting Operations"
+---
+
+## Motivation
+
+Throughout this course we will repeatedly say things like “this algorithm costs $\mathcal{O}(n^2)$”
+or “this factorization costs $\mathcal{O}(n^3)$”.  
+This addendum makes those statements **precise** by introducing:
+
+- what we mean by *computational cost*,
+- how to count floating-point operations (*flops*),
+- asymptotic notation ($\mathcal{O}$, $\Theta$, $\Omega$),
+- typical cost patterns in linear algebra.
+
+The goal is to be able to justify the complexity claims used in chapters on
+LU, Cholesky, QR, SVD, least squares, etc.
+
+---
+
+## 1. Models of Computation
+
+### 1.1 Floating-point operation (flop)
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Flop)</div>
+
+A **floating-point operation** (flop) is typically counted as one basic arithmetic operation:
+addition, subtraction, multiplication, or division performed on floating-point numbers.
+:::
+
+In numerical linear algebra, flop counts are a standard way to compare algorithms.
+
+::: {.mathbox .remark}
+<div class="mathbox-title">Remark</div>
+
+Different hardware may execute additions and multiplications at different speeds, and memory access
+can dominate runtime. Still, flop counts are a useful first-order approximation and correlate well
+with practical runtime for dense computations.
+:::
+
+---
+
+### 1.2 Dense vs. sparse cost
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Dense vs. sparse)</div>
+
+A matrix is **dense** if most entries are nonzero (or treated as such).  
+A matrix is **sparse** if most entries are zero and we exploit that structure to save work.
+:::
+
+In this addendum we focus on **dense** costs, which are the classical “textbook” complexities.
+
+---
+
+## 2. Asymptotic Notation
+
+### 2.1 Big-O
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Big-O)</div>
+
+Let $f,g:\mathbb{N}\to \mathbb{R}_{\ge 0}$. We say $f(n)=\mathcal{O}(g(n))$ if there exist constants
+$C>0$ and $n_0$ such that for all $n\ge n_0$,
+
+$$
+f(n) \le C\,g(n).
+$$
+:::
+
+Intuition: $f$ grows **at most** on the order of $g$.
+
+---
+
+### 2.2 Big-Omega and Theta
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Big-$\Omega$)</div>
+
+$f(n)=\Omega(g(n))$ if there exist $c>0$ and $n_0$ such that for all $n\ge n_0$,
+
+$$
+f(n) \ge c\,g(n).
+$$
+:::
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Big-$\Theta$)</div>
+
+$f(n)=\Theta(g(n))$ if $f(n)=\mathcal{O}(g(n))$ and $f(n)=\Omega(g(n))$.
+:::
+
+So $\Theta$ means “same growth rate up to constants.”
+
+---
+
+### 2.3 Practical rule: keep the leading term
+
+In dense linear algebra, costs often look like:
+
+$$
+f(n)=\frac{1}{3}n^3 + 2n^2 + 7n.
+$$
+
+As $n\to\infty$, the $n^3$ term dominates, so $f(n)=\Theta(n^3)$.
+
+---
+
+## 3. Counting Operations: Core Patterns
+
+### 3.1 Summation growth
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition</div>
+
+The following sums satisfy:
+
+$$
+\sum_{k=1}^n k = \frac{n(n+1)}{2} = \Theta(n^2),
+\qquad
+\sum_{k=1}^n k^2 = \frac{n(n+1)(2n+1)}{6} = \Theta(n^3).
+$$
+:::
+
+These two formulas are the backbone of most complexity derivations.
+
+<details class="proof-toggle">
+<summary>Proof of the sum formulas (click to expand)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof (sketch)</div>
+
+The first identity is classical:
+pair terms $(1+n),(2+(n-1)),\dots$ to get $\frac{n}{2}(n+1)$ (or use induction).
+
+For the second, one can use induction or the telescoping identity
+$(k+1)^3-k^3=3k^2+3k+1$ and sum both sides from $k=1$ to $n$.
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+---
+
+### 3.2 Dot product cost
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition (Dot product)</div>
+
+Computing the dot product of two vectors $x,y\in\mathbb{R}^n$:
+
+$$
+x^\top y = \sum_{i=1}^n x_i y_i
+$$
+
+requires $n$ multiplications and $(n-1)$ additions, hence $\Theta(n)$ flops.
+:::
+
+<details class="proof-toggle">
+<summary>Example: explicit flop count for a dot product</summary>
+
+::: {.mathbox .example}
+<div class="mathbox-title">Example</div>
+
+To compute $x^\top y$:
+- multiply $x_i y_i$ for $i=1,\dots,n$ → $n$ multiplications,
+- sum them → $(n-1)$ additions.
+
+Total $\approx 2n$ flops, i.e. $\Theta(n)$.
+:::
+
+</details>
+
+---
+
+### 3.3 Matrix–vector multiplication
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition (Matrix–vector product)</div>
+
+Computing $Ax$ with $A\in\mathbb{R}^{m\times n}$ and $x\in\mathbb{R}^n$ costs
+$\Theta(mn)$ flops.
+:::
+
+Reason: $Ax$ produces $m$ dot products of length $n$.
+
+<details class="proof-toggle">
+<summary>Example: flop count for $Ax$</summary>
+
+::: {.mathbox .example}
+<div class="mathbox-title">Example</div>
+
+Each entry of $Ax$ is
+$$
+(Ax)_i = \sum_{j=1}^n a_{ij}x_j,
+$$
+a dot product of length $n$ → $\approx 2n$ flops.  
+There are $m$ rows → $\approx 2mn$ flops, hence $\Theta(mn)$.
+:::
+
+</details>
+
+---
+
+### 3.4 Matrix–matrix multiplication (naïve)
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition (Matrix–matrix product)</div>
+
+The standard algorithm to compute $C=AB$ with $A\in\mathbb{R}^{m\times n}$ and
+$B\in\mathbb{R}^{n\times p}$ costs $\Theta(mnp)$ flops.
+:::
+
+Each entry $c_{ij}$ is a dot product of length $n$.
+
+<details class="proof-toggle">
+<summary>Example: flop count for $AB$</summary>
+
+::: {.mathbox .example}
+<div class="mathbox-title">Example</div>
+
+There are $mp$ entries in $C$.  
+Each entry is
+$$
+c_{ij}=\sum_{k=1}^n a_{ik}b_{kj},
+$$
+costing $\approx 2n$ flops.  
+Total $\approx 2mnp$ flops → $\Theta(mnp)$.
+:::
+
+</details>
+
+---
+
+## 4. Triangular Systems: Forward and Back Substitution
+
+Triangular solves are fundamental because LU and Cholesky reduce general solves to them.
+
+### 4.1 Forward substitution (lower triangular)
+
+Let $L\in\mathbb{R}^{n\times n}$ be lower triangular with nonzero diagonal.  
+Solve
+
+$$
+Ly = b.
+$$
+
+The equations are:
+
+$$
+\ell_{11}y_1=b_1,
+\qquad
+\ell_{21}y_1+\ell_{22}y_2=b_2,
+\quad \dots \quad
+\sum_{j=1}^i \ell_{ij}y_j=b_i.
+$$
+
+So we compute $y_1$ first, then $y_2$, etc.
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition (Cost of forward substitution)</div>
+
+Solving a lower triangular system $Ly=b$ by forward substitution costs $\Theta(n^2)$ flops.
+:::
+
+<details class="proof-toggle">
+<summary>Proof and explicit cost calculation (click to expand)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof</div>
+
+For row $i$, we compute
+
+$$
+y_i=\frac{1}{\ell_{ii}}\left(b_i-\sum_{j=1}^{i-1}\ell_{ij}y_j\right).
+$$
+
+The inner sum has $(i-1)$ multiplications and $(i-2)$ additions, plus one subtraction and one division.
+Up to constants, row $i$ costs $\Theta(i)$ flops.
+
+Therefore, total cost is
+
+$$
+\sum_{i=1}^n \Theta(i) = \Theta\!\left(\sum_{i=1}^n i\right)=\Theta(n^2).
+$$
+
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+---
+
+### 4.2 Back substitution (upper triangular)
+
+Let $U\in\mathbb{R}^{n\times n}$ be upper triangular with nonzero diagonal.  
+Solve
+
+$$
+Ux = y.
+$$
+
+We compute $x_n$ first, then $x_{n-1}$, etc.
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition (Cost of back substitution)</div>
+
+Solving an upper triangular system $Ux=y$ by back substitution costs $\Theta(n^2)$ flops.
+:::
+
+<details class="proof-toggle">
+<summary>Proof and explicit cost calculation (click to expand)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof</div>
+
+For row $i$ (counting from the bottom), we compute
+
+$$
+x_i=\frac{1}{u_{ii}}\left(y_i-\sum_{j=i+1}^{n}u_{ij}x_j\right).
+$$
+
+The sum has $(n-i)$ multiplications and $(n-i-1)$ additions, plus one subtraction and one division.
+So row $i$ costs $\Theta(n-i)$ flops.
+
+Total:
+
+$$
+\sum_{i=1}^n \Theta(n-i)=\Theta\!\left(\sum_{k=0}^{n-1}k\right)=\Theta(n^2).
+$$
+
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+---
+
+## 5. LU Factorization Cost (Dense)
+
+LU factorization itself costs $\Theta(n^3)$ flops (for dense matrices),
+but once computed, each solve costs only $\Theta(n^2)$.
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition (LU factorization cost, informal)</div>
+
+For dense $A\in\mathbb{R}^{n\times n}$, computing an LU factorization costs $\Theta(n^3)$ flops.
+After factorization, each solve $Ax=b$ costs $\Theta(n^2)$ flops.
+:::
+
+<details class="proof-toggle">
+<summary>Why LU costs $\Theta(n^3)$ (click to expand)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof (counting idea)</div>
+
+Gaussian elimination proceeds column by column.
+At elimination step $k$, we update the trailing submatrix of size $(n-k)\times(n-k)$.
+This is roughly a rank-1 update costing $\Theta((n-k)^2)$ operations.
+
+Hence total elimination cost scales like
+
+$$
+\sum_{k=1}^{n-1} (n-k)^2 = \sum_{s=1}^{n-1} s^2 = \Theta(n^3).
+$$
+
+More precise counting gives approximately $\frac{2}{3}n^3$ flops for the elimination part.
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+---
+
+## 6. Cholesky Factorization Cost (Dense)
+
+Cholesky exploits symmetry and costs about half of LU.
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition (Cholesky factorization cost, informal)</div>
+
+For dense symmetric positive definite $A\in\mathbb{R}^{n\times n}$,
+computing $A=LL^\top$ costs $\Theta(n^3)$ flops, with a leading constant about half of LU.
+:::
+
+<details class="proof-toggle">
+<summary>Why Cholesky is roughly half of LU (click to expand)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof (counting idea)</div>
+
+Cholesky only computes the lower triangular factor $L$, and symmetry means we do not process
+the entire matrix independently. The work at step $k$ updates a trailing submatrix but only
+its lower-triangular part, reducing the constant factor by about $1/2$.
+
+A standard flop estimate is approximately $\frac{1}{3}n^3$ flops.
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+---
+
+## 7. Why Constants Matter (but not too much)
+
+Two algorithms can both be $\Theta(n^3)$ but differ significantly in practice:
+
+- LU: about $\frac{2}{3}n^3$ flops
+- Cholesky: about $\frac{1}{3}n^3$ flops
+
+So Cholesky is often close to **2× faster** when applicable.
+
+---
+
+## 8. Worked Example: Triangular Solve by Hand
+
+<details class="proof-toggle">
+<summary>Example: forward substitution step-by-step (click to expand)</summary>
+
+::: {.mathbox .example}
+<div class="mathbox-title">Example</div>
+
+Solve $Ly=b$ where
+
+$$
+L=\begin{pmatrix}
+2 & 0 & 0\\
+-1 & 3 & 0\\
+4 & 2 & 1
+\end{pmatrix},
+\qquad
+b=\begin{pmatrix}
+2\\
+5\\
+1
+\end{pmatrix}.
+$$
+
+Row 1:
+$$
+2y_1 = 2 \;\Rightarrow\; y_1=1.
+$$
+
+Row 2:
+$$
+-1\cdot y_1 + 3y_2 = 5
+\;\Rightarrow\;
+-1 + 3y_2 = 5
+\;\Rightarrow\;
+y_2 = 2.
+$$
+
+Row 3:
+$$
+4y_1 + 2y_2 + 1\cdot y_3 = 1
+\;\Rightarrow\;
+4 + 4 + y_3 = 1
+\;\Rightarrow\;
+y_3=-7.
+$$
+
+So
+
+$$
+y=\begin{pmatrix}1\\2\\-7\end{pmatrix}.
+$$
+:::
+
+</details>
+
+---
+
+## 9. Summary Checklist
+
+- Use **Big-O / Theta** to describe growth rates.
+- Dot products cost $\Theta(n)$.
+- Matrix–vector products cost $\Theta(mn)$.
+- Triangular solves cost $\Theta(n^2)$.
+- Dense LU factorization costs $\Theta(n^3)$.
+- Dense Cholesky costs $\Theta(n^3)$ with a smaller constant.
+- Once a factorization is computed, solving for many right-hand sides is cheap.
+
+---
+
+## Exercises (Optional)
+
+<details class="proof-toggle">
+<summary>Exercise 1: compute a flop estimate (click to expand)</summary>
+
+::: {.mathbox .example}
+<div class="mathbox-title">Exercise</div>
+
+Suppose you solve $Ax=b$ for $100$ different vectors $b$.
+
+1. If you compute LU once, what is the total cost as a function of $n$?
+2. Compare it with computing $A^{-1}$ explicitly and multiplying.
+
+Give the result using $\Theta(\cdot)$ notation.
+:::
+
+</details>
+
+<details class="proof-toggle">
+<summary>Exercise 2: rank-1 update cost (click to expand)</summary>
+
+::: {.mathbox .example}
+<div class="mathbox-title">Exercise</div>
+
+Show that updating a dense $(n-k)\times(n-k)$ matrix by
+
+$$
+B \leftarrow B - uv^\top
+$$
+
+costs $\Theta((n-k)^2)$ flops.
+
+(Hint: each entry of $B$ is updated by one multiplication and one subtraction.)
+:::
+
+</details>

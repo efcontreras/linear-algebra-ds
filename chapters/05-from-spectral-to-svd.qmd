@@ -1,0 +1,217 @@
+---
+title: "From the Spectral Theorem to the Singular Value Decomposition"
+---
+
+## Motivation
+
+The Spectral Theorem gives a complete description of **symmetric linear operators**.
+However, most data matrices encountered in practice are:
+
+- rectangular,
+- non-symmetric,
+- not even square.
+
+The **Singular Value Decomposition (SVD)** extends the ideas of spectral theory
+to *all* matrices and preserves the geometric intuition of:
+
+- orthogonal directions,
+- scaling along independent axes,
+- rank and low-dimensional structure.
+
+This chapter explains **why SVD is the natural generalization of the Spectral Theorem**.
+
+---
+
+## What the Spectral Theorem Requires
+
+Recall the Spectral Theorem:
+
+- the matrix must be square,
+- the matrix must be symmetric (self-adjoint).
+
+Only under these conditions do we obtain an orthogonal diagonalization
+
+$$
+A = Q \Lambda Q^\top.
+$$
+
+This immediately raises two questions:
+
+1. What if $A$ is **not symmetric**?
+2. What if $A$ is **rectangular**?
+
+---
+
+## First Observation: Symmetry Can Be Recovered
+
+Given an arbitrary matrix $A \in \mathbb{R}^{m \times n}$,
+the matrices
+
+$$
+A^\top A \in \mathbb{R}^{n \times n},
+\qquad
+AA^\top \in \mathbb{R}^{m \times m}
+$$
+
+are always:
+
+- symmetric,
+- positive semidefinite.
+
+Thus, **spectral theory applies** to both $A^\top A$ and $AA^\top$.
+
+---
+
+## Eigenvalues of $A^\top A$
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition</div>
+
+Let $A \in \mathbb{R}^{m \times n}$.
+Then:
+
+1. All eigenvalues of $A^\top A$ are real and nonnegative.
+2. If $v$ is an eigenvector of $A^\top A$ with eigenvalue $\lambda > 0$, then
+   $Av \neq 0$ and
+
+   $$
+   \|Av\|^2 = \lambda \|v\|^2.
+   $$
+:::
+
+This motivates the definition:
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Singular values)</div>
+
+The **singular values** of $A$ are defined as
+
+$$
+\sigma_i := \sqrt{\lambda_i},
+$$
+
+where $\lambda_i$ are the eigenvalues of $A^\top A$.
+:::
+
+---
+
+## Geometric Interpretation
+
+If $v$ is a unit eigenvector of $A^\top A$ with eigenvalue $\lambda$,
+then:
+
+$$
+\|Av\| = \sqrt{\lambda} = \sigma.
+$$
+
+Thus:
+
+- $v$ is a direction in the input space,
+- $A$ maps $v$ to a vector of length $\sigma$,
+- $\sigma$ measures the **stretching factor** of $A$ in direction $v$.
+
+This is exactly the geometric content we expect from a spectral decomposition.
+
+---
+
+## Left and Right Singular Directions
+
+Let $v_i$ be an eigenvector of $A^\top A$ with eigenvalue $\lambda_i > 0$.
+Define:
+
+$$
+u_i := \frac{1}{\sigma_i} A v_i.
+$$
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition</div>
+
+The vectors $u_i$ satisfy:
+
+1. $\|u_i\| = 1$,
+2. $u_i^\top u_j = 0$ for $i \neq j$,
+3. $A v_i = \sigma_i u_i$.
+:::
+
+So:
+
+- $v_i$ are **right singular vectors**,
+- $u_i$ are **left singular vectors**.
+
+Both families are orthonormal.
+
+---
+
+## Recovering a Matrix from Rank-One Operators
+
+Using the pairs $(u_i, v_i)$, we can write:
+
+$$
+A = \sum_{i=1}^r \sigma_i \, u_i v_i^\top,
+$$
+
+where $r = \mathrm{rank}(A)$.
+
+This expresses $A$ as a **sum of rank-one operators**,
+generalizing the spectral decomposition of symmetric matrices.
+
+---
+
+## Comparison with the Spectral Decomposition
+
+| Spectral Theorem | Singular Value Decomposition |
+|------------------|------------------------------|
+| $A = Q \Lambda Q^\top$ | $A = U \Sigma V^\top$ |
+| symmetric $A$ | arbitrary $A$ |
+| eigenvalues $\lambda_i$ | singular values $\sigma_i = \sqrt{\lambda_i}$ |
+| one orthonormal basis | two orthonormal bases |
+| acts on same space | maps between different spaces |
+
+The SVD reduces to the Spectral Theorem when $A$ is symmetric.
+
+---
+
+## Computational Insight
+
+In practice:
+
+- eigen-decomposition of $A^\top A$ is **not computed explicitly**,
+- SVD algorithms compute $U, \Sigma, V$ directly for numerical stability.
+
+However, the theoretical construction via $A^\top A$ explains
+**why SVD exists** and **why it is orthogonal**.
+
+---
+
+## Why This Matters for Data Science
+
+Most datasets are rectangular matrices:
+
+- rows = samples,
+- columns = features.
+
+SVD provides:
+
+- orthogonal directions of maximal variance,
+- a notion of rank and intrinsic dimension,
+- optimal low-rank approximations.
+
+This makes SVD the **central decomposition in modern data analysis**.
+
+---
+
+## Summary
+
+- Spectral theory applies to symmetric operators.
+- Any matrix induces symmetric operators $A^\top A$ and $AA^\top$.
+- Singular values arise as square roots of eigenvalues.
+- SVD generalizes the Spectral Theorem to arbitrary matrices.
+- Geometry (orthogonality + scaling) is preserved.
+
+---
+
+## Preview: Singular Value Decomposition
+
+We now state and study the **Singular Value Decomposition** formally,
+prove its main properties, and explore its applications to
+low-rank approximation, PCA, and data compression.

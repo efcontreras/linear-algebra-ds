@@ -1,0 +1,52 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Linear Algebra Lab"
+  page-navigation: true
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - index.qmd
+      - section: "Foundations"
+        contents:
+          - chapters/00-linear-systems.qmd
+          - chapters/01-vectors.qmd
+          - chapters/02-linear-maps.qmd
+          - chapters/03-inner-products.qmd
+      - section: "Spectral theory & decompositions"
+        contents:
+          - chapters/04-spectral.qmd
+          - chapters/05-from-spectral-to-svd.qmd
+          - chapters/05-svd.qmd
+      - section: "Data Science Applications"
+        contents:
+          - chapters/06-pca-application.qmd
+          - chapters/07-regularization-truncated-svd.qmd
+          - chapters/08-spectral-clustering.qmd
+      - section: "Appendix"
+        contents:
+          - chapters/100A-appendix.qmd
+      - about.qmd
+
+format:
+  html:
+    toc: true
+    number-sections: true
+    html-math-method: mathjax
+    highlight-style: github
+    code-copy: true
+    code-overflow: wrap
+    code-line-numbers: false
+    code-fold: true
+    code-tools: true
+    css: styles.css
+
+execute:
+  echo: fenced
+  warning: false
+  message: false
+  freeze: auto
+

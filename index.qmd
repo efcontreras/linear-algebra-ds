@@ -1,0 +1,16 @@
+---
+title: "Linear Algebra Lab"
+---
+
+This is a **math-first, code-backed** linear algebra website.
+
+You’ll find:
+- definitions, theorems, and proofs (LaTeX),
+- computational experiments in Python,
+- direct bridges to Data Science (least squares, SVD, PCA, etc.).
+
+Example:
+
+$$
+\|x\|_2 = \sqrt{\sum_{i=1}^n x_i^2}.
+$$

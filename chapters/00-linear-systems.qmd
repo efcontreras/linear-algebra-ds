@@ -1,0 +1,332 @@
+---
+title: "Solving Linear Systems: LU, Cholesky and Numerical Stability"
+---
+
+## Motivation
+
+Many problems in Linear Algebra — and most optimization problems in Data Science —
+boil down to solving a linear system
+
+$$
+Ax = b
+$$
+
+efficiently and **numerically stably**.
+
+Different matrix factorizations exist for this task.  
+They do not all serve the same purpose:
+
+- some are fast but fragile,
+- some are slower but stable,
+- some exploit special structure (symmetry, positivity).
+
+In this chapter we study **LU**, **PA = LU**, and **Cholesky** decompositions,
+and clarify their role in Data Science.
+
+---
+
+## Solving Linear Systems: the Big Picture
+
+Given $A \in \mathbb{R}^{n \times n}$, there are three classical approaches:
+
+1. Compute $A^{-1}$ explicitly (❌ almost never recommended)
+2. Factorize $A$ once, then solve cheaply for many right-hand sides
+3. Reformulate the problem to exploit structure (symmetry, positivity)
+
+Matrix factorizations implement (2) and (3).
+
+---
+
+## LU Decomposition
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (LU decomposition)</div>
+
+A matrix $A \in \mathbb{R}^{n \times n}$ admits an **LU decomposition** if it can be written as
+
+$$
+A = LU
+$$
+
+where:
+- $L$ is lower triangular with ones on the diagonal,
+- $U$ is upper triangular.
+:::
+
+---
+
+### Solving a system with LU
+
+If $A = LU$, then solving $Ax=b$ reduces to:
+
+1. Solve $Ly = b$ (forward substitution)
+2. Solve $Ux = y$ (back substitution)
+
+Both steps cost $\mathcal{O}(n^2)$ operations.
+
+::: {.mathbox .proposition}
+<div class="mathbox-title">Proposition</div>
+
+Let $A \in \mathbb{R}^{n \times n}$ admit an LU decomposition $A = LU$,
+where $L$ is lower triangular with ones on the diagonal and $U$ is upper triangular.
+Then solving the linear system
+
+$$
+Ax = b
+$$
+
+reduces to solving the two triangular systems:
+
+1. $Ly = b$ (forward substitution)  
+2. $Ux = y$ (back substitution)
+
+Each step requires $\mathcal{O}(n^2)$ operations.
+:::
+
+<details class="proof-toggle">
+<summary>Proof (click to expand)</summary>
+
+::: {.mathbox .proof}
+<div class="mathbox-title">Proof</div>
+
+Assume that $A = LU$ with $L$ lower triangular and $U$ upper triangular.
+Then the system $Ax = b$ can be written as
+
+$$
+LUx = b.
+$$
+
+Define an auxiliary variable $y := Ux$.
+The system becomes
+
+$$
+Ly = b.
+$$
+
+Since $L$ is lower triangular with nonzero diagonal entries, this system can be solved uniquely
+by **forward substitution**, computing $y_1, y_2, \dots, y_n$ sequentially.
+
+Once $y$ is known, we solve
+
+$$
+Ux = y.
+$$
+
+Because $U$ is upper triangular with nonzero diagonal entries, this system can be solved uniquely
+by **back substitution**, computing $x_n, x_{n-1}, \dots, x_1$ sequentially.
+
+Each substitution step involves summations over at most $n$ terms, and there are $n$ unknowns.
+Therefore, each triangular solve costs $\mathcal{O}(n^2)$ operations.
+
+This proves that solving $Ax=b$ using an LU decomposition requires two triangular solves,
+each with quadratic complexity.
+
+<span class="proof-end">□</span>
+:::
+
+</details>
+
+
+---
+
+### Limitations of LU
+
+LU decomposition **may fail** or be numerically unstable if:
+- a pivot element is zero or very small,
+- the matrix is ill-conditioned.
+
+This motivates pivoting.
+
+---
+
+## LU with Pivoting (PA = LU)
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (LU with partial pivoting)</div>
+
+For any square matrix $A$, there exists a permutation matrix $P$ such that
+
+$$
+PA = LU
+$$
+
+where $L$ and $U$ are triangular matrices.
+:::
+
+- $P$ reorders the rows of $A$ to ensure numerical stability.
+- This is the **standard LU decomposition used in practice**.
+
+::: {.mathbox .remark}
+<div class="mathbox-title">Remark</div>
+
+When numerical libraries say “LU”, they almost always mean **PA = LU**.
+:::
+
+---
+
+## Computational Example (Python)
+
+```python
+import numpy as np
+from scipy.linalg import lu
+
+A = np.array([[0., 2., 1.],
+              [1., 1., 0.],
+              [2., 1., 1.]])
+
+P, L, U = lu(A)
+P, L, U
+#Verification
+
+np.allclose(P @ A, L @ U)
+```
+
+
+## Cholesky Decomposition
+
+LU decomposition does not exploit matrix structure.
+When a matrix is **symmetric positive definite**, a more efficient factorization exists.
+
+::: {.mathbox .definition}
+<div class="mathbox-title">Definition (Cholesky decomposition)</div>
+
+Let $A \in \mathbb{R}^{n \times n}$ be symmetric positive definite.
+Then there exists a unique lower triangular matrix $L$ with positive diagonal entries such that
+
+$$
+A = LL^\top
+$$
+:::
+
+---
+
+## Why Cholesky Is Special
+
+Compared to LU decomposition:
+
+- it is about **twice as fast**,
+- it is more numerically stable,
+- it uses roughly half the memory,
+- it exploits symmetry and positivity.
+
+However:
+
+- ❌ it fails if $A$ is not positive definite.
+
+---
+
+## Cholesky and Quadratic Problems
+
+Many optimization problems in mathematics and Data Science involve minimizing a quadratic form:
+
+$$
+\min_x \; \frac{1}{2} x^\top Q x - b^\top x
+$$
+
+where $Q \succ 0$.
+
+The first-order optimality condition is:
+
+$$
+Qx = b
+$$
+
+This linear system is solved directly using the **Cholesky decomposition** of $Q$.
+
+---
+
+## Data Science Applications
+
+### Least Squares via Normal Equations
+
+Given a data matrix $X \in \mathbb{R}^{m \times n}$ and a target vector $y \in \mathbb{R}^m$,
+linear regression solves:
+
+$$
+\min_w \|Xw - y\|_2^2
+$$
+
+This leads to the normal equations:
+
+$$
+X^\top X w = X^\top y
+$$
+
+If $X$ has full column rank, then $X^\top X$ is symmetric positive definite and can be solved efficiently using **Cholesky decomposition**.
+
+---
+
+### Gaussian Models
+
+In multivariate Gaussian models, we often need to compute:
+
+- the inverse of the covariance matrix $\Sigma^{-1}$,
+- the log-determinant $\log \det \Sigma$,
+- samples from $\mathcal{N}(0, \Sigma)$.
+
+All of these operations rely on the factorization
+
+$$
+\Sigma = LL^\top
+$$
+
+This appears in:
+
+- Gaussian Processes,
+- Kalman filters,
+- Bayesian linear regression.
+
+---
+
+## Numerical Stability Matters
+
+Two mathematically equivalent formulations can behave very differently numerically.
+
+::: {.mathbox .remark}
+<div class="mathbox-title">Remark</div>
+
+Computing $A^{-1}b$ explicitly is almost always worse than solving $Ax = b$
+using a matrix factorization.
+:::
+
+Stability considerations explain why:
+
+- LU is used with pivoting,
+- Cholesky is preferred whenever applicable,
+- QR or SVD are used when rank deficiency is possible.
+
+---
+
+## What These Decompositions Do *Not* Do
+
+LU and Cholesky decompositions:
+
+- do **not** analyze the geometry of data,
+- do **not** reduce dimensionality,
+- do **not** reveal latent structure.
+
+These tasks belong to **spectral decompositions** such as SVD and eigenvalue decompositions.
+
+---
+
+## Summary
+
+- Solving linear systems is central to optimization and learning.
+- Cholesky decomposition is optimal for symmetric positive definite matrices.
+- It is a key computational tool behind regression and Gaussian models.
+- Numerical stability dictates which decomposition should be used.
+- Understanding these methods is essential before studying spectral techniques.
+
+---
+
+## Preview: QR and Least Squares
+
+When $X$ is rectangular or ill-conditioned, solving the normal equations is unstable.
+
+A more robust approach is based on the **QR decomposition**:
+
+$$
+X = QR
+$$
+
+This leads to numerically stable least squares solvers and prepares the ground for the Singular Value Decomposition.
