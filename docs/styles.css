@@ -1,0 +1,41 @@
+/* css styles */
+/* --- Math boxes --- */
+.mathbox {
+  border-left: 6px solid #999;
+  padding: 0.9rem 1rem;
+  margin: 1.2rem 0;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.03);
+}
+
+.mathbox .mathbox-title {
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.mathbox.definition { border-left-color: #2f6fdd; }
+.mathbox.theorem    { border-left-color: #8a2be2; }
+.mathbox.lemma      { border-left-color: #8a2be2; }
+.mathbox.proposition{ border-left-color: #8a2be2; }
+.mathbox.corollary  { border-left-color: #8a2be2; }
+.mathbox.example    { border-left-color: #1b8f5a; }
+.mathbox.proof      { border-left-color: #444; }
+
+
+details.proof-toggle-boxed {
+  border-left: 4px solid #444;
+  padding-left: 0.8rem;
+  margin: 1.5rem 0;
+}
+
+details.proof-toggle-boxed summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #444;
+}
+
+
+.proof-end {
+  font-weight: 700;
+  float: right;
+}
