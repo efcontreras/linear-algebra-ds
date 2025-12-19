@@ -1739,11 +1739,91 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Linear Algebra Lab",
+    "title": "Linear Algebra and Data Science",
     "section": "",
-    "text": "This is a math-first, code-backed linear algebra website.\nYou’ll find: - definitions, theorems, and proofs (LaTeX), - computational experiments in Python, - direct bridges to Data Science (least squares, SVD, PCA, etc.).\nExample:\n\\[\n\\|x\\|_2 = \\sqrt{\\sum_{i=1}^n x_i^2}.\n\\]",
+    "text": "This website is a conceptual and applied guide to Linear Algebra and Spectral Methods,\nwith a clear focus on Data Science applications.\nThe material bridges the gap between: - mathematical theory (linear algebra, spectral theory), - and practical tools used in modern data analysis.\nRather than treating algorithms as black boxes, the emphasis is on: geometry, structure, and interpretation.",
     "crumbs": [
-      "Linear Algebra Lab"
+      "Linear Algebra and Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#what-is-this-project",
+    "href": "index.html#what-is-this-project",
+    "title": "Linear Algebra and Data Science",
+    "section": "",
+    "text": "This website is a conceptual and applied guide to Linear Algebra and Spectral Methods,\nwith a clear focus on Data Science applications.\nThe material bridges the gap between: - mathematical theory (linear algebra, spectral theory), - and practical tools used in modern data analysis.\nRather than treating algorithms as black boxes, the emphasis is on: geometry, structure, and interpretation.",
+    "crumbs": [
+      "Linear Algebra and Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#why-linear-algebra-matters-in-data-science",
+    "href": "index.html#why-linear-algebra-matters-in-data-science",
+    "title": "Linear Algebra and Data Science",
+    "section": "2 Why Linear Algebra Matters in Data Science",
+    "text": "2 Why Linear Algebra Matters in Data Science\nMany core methods in Data Science are fundamentally linear and spectral:\n\ndimensionality reduction,\nregularization and stability,\nclustering and embedding,\nmatrix factorization and compression.\n\nUnderstanding these methods deeply requires more than knowing how to call an API. It requires understanding: - vector spaces, - projections, - eigenvalues and singular values, - low-rank structure.\nThis project shows how these ideas form a coherent mathematical framework.",
+    "crumbs": [
+      "Linear Algebra and Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#what-you-will-find-here",
+    "href": "index.html#what-you-will-find-here",
+    "title": "Linear Algebra and Data Science",
+    "section": "3 What You Will Find Here",
+    "text": "3 What You Will Find Here\nThe site is organized as a progressive narrative.\n\n3.1 Foundations\n\nVector spaces and subspaces\n\nLinear maps and matrices\n\nInner products, orthogonality, projections\n\nComputational cost and complexity\n\n\n\n3.2 Spectral Theory\n\nEigenvalues and eigenvectors\n\nSpectral theorem for symmetric operators\n\nRayleigh quotients and quadratic forms\n\n\n\n3.3 Singular Value Decomposition\n\nSVD as a generalization of spectral theory\n\nGeometry of singular vectors\n\nOptimal low-rank approximation\n\n\n\n3.4 Applications\n\nPrincipal Component Analysis (PCA)\n\nTruncated SVD and ridge regularization\n\nBias–variance trade-offs\n\nSpectral clustering and graph Laplacians\n\n\n\n3.5 Synthesis\n\nA unified view of spectral methods in Data Science\n\nEach topic is developed with: - precise definitions, - key theorems (with proofs when relevant), - geometric intuition, - Python examples.",
+    "crumbs": [
+      "Linear Algebra and Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#who-is-this-for",
+    "href": "index.html#who-is-this-for",
+    "title": "Linear Algebra and Data Science",
+    "section": "4 Who Is This For?",
+    "text": "4 Who Is This For?\nThis project is intended for:\n\nData Scientists who want a deeper understanding of the tools they use,\nMachine Learning practitioners interested in model stability and structure,\nMathematicians exploring applied spectral methods,\nGraduate students in Data Science, Statistics, or Applied Mathematics.\n\nA basic familiarity with linear algebra is assumed, but advanced topics are developed from first principles.",
+    "crumbs": [
+      "Linear Algebra and Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use-this-site",
+    "href": "index.html#how-to-use-this-site",
+    "title": "Linear Algebra and Data Science",
+    "section": "5 How to Use This Site",
+    "text": "5 How to Use This Site\nYou can approach the material in different ways:\n\nTheory-first\nStart from the foundations and progress toward applications.\nApplication-first\nJump directly to PCA, regularization, or spectral clustering, then trace the theory back.\nReference mode\nUse the chapters as a conceptual reference for spectral methods.\n\nThe chapters are designed to be read independently, while still forming a coherent whole.",
+    "crumbs": [
+      "Linear Algebra and Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#philosophy",
+    "href": "index.html#philosophy",
+    "title": "Linear Algebra and Data Science",
+    "section": "6 Philosophy",
+    "text": "6 Philosophy\nThe guiding idea of this project is simple:\n\nMany data problems are not about finding complex models,\nbut about identifying the right directions.\n\nSpectral methods provide a principled way to do exactly that.",
+    "crumbs": [
+      "Linear Algebra and Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#about-the-author",
+    "href": "index.html#about-the-author",
+    "title": "Linear Algebra and Data Science",
+    "section": "7 About the Author",
+    "text": "7 About the Author\nThis project is developed by Erik Contreras López,\nMathematician (PhD) and Data Scientist.\nIt reflects both: - academic training in mathematics, - practical experience in data-driven modeling.",
+    "crumbs": [
+      "Linear Algebra and Data Science"
+    ]
+  },
+  {
+    "objectID": "index.html#start-exploring",
+    "href": "index.html#start-exploring",
+    "title": "Linear Algebra and Data Science",
+    "section": "8 Start Exploring",
+    "text": "8 Start Exploring\nUse the navigation bar above to begin with the foundations,\nor jump directly to the applications that interest you most.",
+    "crumbs": [
+      "Linear Algebra and Data Science"
     ]
   }
 ]

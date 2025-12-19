@@ -1,16 +1,132 @@
 ---
-title: "Linear Algebra Lab"
+title: "Linear Algebra and Data Science"
 ---
 
-This is a **math-first, code-backed** linear algebra website.
+## What is this project?
 
-You’ll find:
-- definitions, theorems, and proofs (LaTeX),
-- computational experiments in Python,
-- direct bridges to Data Science (least squares, SVD, PCA, etc.).
+This website is a **conceptual and applied guide to Linear Algebra and Spectral Methods**,  
+with a clear focus on **Data Science applications**.
 
-Example:
+The material bridges the gap between:
+- mathematical theory (linear algebra, spectral theory),
+- and practical tools used in modern data analysis.
 
-$$
-\|x\|_2 = \sqrt{\sum_{i=1}^n x_i^2}.
-$$
+Rather than treating algorithms as black boxes, the emphasis is on:
+**geometry, structure, and interpretation**.
+
+---
+
+## Why Linear Algebra Matters in Data Science
+
+Many core methods in Data Science are fundamentally linear and spectral:
+
+- dimensionality reduction,
+- regularization and stability,
+- clustering and embedding,
+- matrix factorization and compression.
+
+Understanding these methods deeply requires more than knowing how to call an API.
+It requires understanding:
+- vector spaces,
+- projections,
+- eigenvalues and singular values,
+- low-rank structure.
+
+This project shows how these ideas form a **coherent mathematical framework**.
+
+---
+
+## What You Will Find Here
+
+The site is organized as a progressive narrative.
+
+### Foundations
+- Vector spaces and subspaces  
+- Linear maps and matrices  
+- Inner products, orthogonality, projections  
+- Computational cost and complexity  
+
+### Spectral Theory
+- Eigenvalues and eigenvectors  
+- Spectral theorem for symmetric operators  
+- Rayleigh quotients and quadratic forms  
+
+### Singular Value Decomposition
+- SVD as a generalization of spectral theory  
+- Geometry of singular vectors  
+- Optimal low-rank approximation  
+
+### Applications
+- Principal Component Analysis (PCA)  
+- Truncated SVD and ridge regularization  
+- Bias–variance trade-offs  
+- Spectral clustering and graph Laplacians  
+
+### Synthesis
+- A unified view of spectral methods in Data Science  
+
+Each topic is developed with:
+- precise definitions,
+- key theorems (with proofs when relevant),
+- geometric intuition,
+- Python examples.
+
+---
+
+## Who Is This For?
+
+This project is intended for:
+
+- **Data Scientists** who want a deeper understanding of the tools they use,
+- **Machine Learning practitioners** interested in model stability and structure,
+- **Mathematicians** exploring applied spectral methods,
+- **Graduate students** in Data Science, Statistics, or Applied Mathematics.
+
+A basic familiarity with linear algebra is assumed, but advanced topics are developed
+from first principles.
+
+---
+
+## How to Use This Site
+
+You can approach the material in different ways:
+
+- **Theory-first**  
+  Start from the foundations and progress toward applications.
+
+- **Application-first**  
+  Jump directly to PCA, regularization, or spectral clustering, then trace the theory back.
+
+- **Reference mode**  
+  Use the chapters as a conceptual reference for spectral methods.
+
+The chapters are designed to be read independently, while still forming a coherent whole.
+
+---
+
+## Philosophy
+
+The guiding idea of this project is simple:
+
+> Many data problems are not about finding complex models,  
+> but about identifying the right directions.
+
+Spectral methods provide a principled way to do exactly that.
+
+---
+
+## About the Author
+
+This project is developed by **Erik Contreras López**,  
+Mathematician (PhD) and Data Scientist.
+
+It reflects both:
+- academic training in mathematics,
+- practical experience in data-driven modeling.
+
+---
+
+## Start Exploring
+
+Use the navigation bar above to begin with the foundations,  
+or jump directly to the applications that interest you most.
